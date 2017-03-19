@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pds", "pds\pds.csproj", "{9D5A1794-E8B5-4736-9F31-E591B22802CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PD.Contracts", "PD.Business\PD.Contracts.csproj", "{630713C6-9C99-40D4-8B49-8FCD03324FB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PD.Stores", "PD.Stores\PD.Stores.csproj", "{4E4C7641-8309-4E3B-BBB9-C87C662047B5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9D5A1794-E8B5-4736-9F31-E591B22802CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D5A1794-E8B5-4736-9F31-E591B22802CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D5A1794-E8B5-4736-9F31-E591B22802CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D5A1794-E8B5-4736-9F31-E591B22802CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{630713C6-9C99-40D4-8B49-8FCD03324FB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{630713C6-9C99-40D4-8B49-8FCD03324FB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{630713C6-9C99-40D4-8B49-8FCD03324FB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{630713C6-9C99-40D4-8B49-8FCD03324FB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E4C7641-8309-4E3B-BBB9-C87C662047B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E4C7641-8309-4E3B-BBB9-C87C662047B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E4C7641-8309-4E3B-BBB9-C87C662047B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E4C7641-8309-4E3B-BBB9-C87C662047B5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
