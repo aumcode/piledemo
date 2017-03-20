@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 using NFX;
 using NFX.ApplicationModel.Pile;
 using NFX.DataAccess.Distributed;
-using PD.Contracts.SocialTrading;
 
-namespace PD.Stores
+namespace PD.SocialTrading
 {
   public class PileSocialTradingStore : DisposableObject, IUserStore
   {

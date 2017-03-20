@@ -6,9 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using NFX.DataAccess.Distributed;
-using PD.Contracts.SocialTrading;
 
-namespace PD.Stores
+namespace PD.SocialTrading
 {
   public class CLRSocialTradingStore : IUserStore
   {
