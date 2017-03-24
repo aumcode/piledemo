@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 using NFX.DataAccess.Distributed;
 
-namespace PD.SocialTrading
+namespace SocialTrading
 {
   public class CLRSocialTradingStore : IUserStore
   {

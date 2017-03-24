@@ -9,7 +9,7 @@ using NFX;
 using NFX.ApplicationModel.Pile;
 using NFX.DataAccess.Distributed;
 
-namespace PD.SocialTrading
+namespace SocialTrading
 {
   public class PileSocialTradingStore : DisposableObject, IUserStore
   {

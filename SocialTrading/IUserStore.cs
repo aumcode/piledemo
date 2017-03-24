@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using NFX.DataAccess.Distributed;
 
 
-namespace PD.SocialTrading
+namespace SocialTrading
 {
   /// <summary>
   /// Denotes a contract for the entoty that acts like a store for social user trading
