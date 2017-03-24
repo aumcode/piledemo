@@ -168,11 +168,11 @@ namespace SocialTrading
     {
       var chance = ExternalRandomGenerator.Instance.NextScaledRandomInteger(0, 100);
       NFX.Collections.StringMap sm = null;
-      if (false)//(chance>50)
+      if (chance > 50)
       {
         sm = new NFX.Collections.StringMap();
-        for (var i = 0; i < chance % 7; i++)
-          sm.Add("Key-" + i, ExternalRandomGenerator.Instance.NextRandomWebSafeString(4,45));
+        for (var i = 0; i < chance % 3; i++)
+          sm.Add("Key-" + i, "iuydsaaduyfnsdfnuwgfgf" + i);
       }
 
       return new User(id)
