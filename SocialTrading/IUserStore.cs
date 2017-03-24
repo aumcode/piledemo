@@ -12,6 +12,13 @@ namespace SocialTrading
   /// </summary>
   public interface IUserStore
   {
+
+
+    long IDSeed { get; }
+
+    GDID MakeID();
+
+
     /// <summary>
     /// Puts user into the store. Returns true if was added, otherwise replaces the existing one
     /// </summary>

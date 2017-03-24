@@ -32,7 +32,15 @@ namespace SocialTrading
 
     private List<Thread> m_List;
 
-    private int Count { get { return m_List.Count; } }
+    public int Count { get { return m_List.Count; } }
+
+    public string TryGetLog()
+    {
+      string result;
+      if (!m_Log.TryDequeue(out result)) return null;
+      return result;
+    }
+
 
 
     public void Set(int threads, int reads, int writes, int deletes)
@@ -69,10 +77,10 @@ namespace SocialTrading
 
         try
         {
-          var count = m_Store.Count;// .Get(gUser);
+          var idseed = m_Store.IDSeed;
           for (var i = 0; i < m_Reads; i++)
           {
-            var gExisting = new GDID(0, (ulong)(count * ExternalRandomGenerator.Instance.NextScaledRandomDouble(0, 1.0d)));
+            var gExisting = new GDID(0, (ulong)(idseed * ExternalRandomGenerator.Instance.NextScaledRandomDouble(0, 1.0d)));
 
             var existing = m_Store.Get(gExisting);
             if (existing == null)
@@ -81,7 +89,7 @@ namespace SocialTrading
 
           for (var i = 0; i < m_Deletes; i++)
           {
-            var gExisting = new GDID(0, (ulong)(count * ExternalRandomGenerator.Instance.NextScaledRandomDouble(0, 1.0d)));
+            var gExisting = new GDID(0, (ulong)(idseed * ExternalRandomGenerator.Instance.NextScaledRandomDouble(0, 1.0d)));
 
             var deleted = m_Store.Remove(gExisting);
             if (deleted)
@@ -99,8 +107,7 @@ namespace SocialTrading
             }
             else
             {
-              count++;
-              var id = new GDID(0, (ulong)count);
+              var id = m_Store.MakeID();
               user = makeUser(id);
             }
 

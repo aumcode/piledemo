@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
 using NFX;
 using NFX.ApplicationModel.Pile;
@@ -14,21 +14,24 @@ namespace SocialTrading
   public class PileSocialTradingStore : DisposableObject, IUserStore
   {
 
-    public PileSocialTradingStore()
+    public PileSocialTradingStore(IPile pile)
     {
-      m_Data = new Dictionary<GDID, PilePointer>[0xff+1];
-      for (var i = 0; i < m_Data.Length; i++)
-        m_Data[i] = new Dictionary<GDID, PilePointer>();
-
-      m_Pile = new DefaultPile();
-      m_Pile.Configure(null);
-      m_Pile.Start();
+      m_Pile = pile;
+      Purge();
     }
 
     protected override void Destructor()
     {
       base.Destructor();
-      DisposeAndNull(ref m_Pile);
+    }
+
+    private long m_IDSeed;
+
+    public long IDSeed { get { return m_IDSeed; } }
+
+    public GDID MakeID()
+    {
+      return new GDID(0, (ulong)Interlocked.Increment(ref m_IDSeed));
     }
 
     private Dictionary<GDID, PilePointer> getBucket(GDID id)
@@ -36,10 +39,10 @@ namespace SocialTrading
       return m_Data[id.Counter & 0xff];
     }
 
-    private DefaultPile m_Pile;
+    private IPile m_Pile;
     private Dictionary<GDID, PilePointer>[] m_Data;
 
-    public long Count { get { return m_Data.Sum(d => { lock(d) return d.Count; }); }}
+    public long Count { get { return m_Data.Sum(d => { lock(d) return (long)d.Count; }); }}
 
     public User AcceptTrade(GDID gUser, User.Trade trade)
     {
@@ -111,6 +114,10 @@ namespace SocialTrading
 
     public void Purge()
     {
+      m_Data = new Dictionary<GDID, PilePointer>[0xff + 1];
+      for (var i = 0; i < m_Data.Length; i++)
+        m_Data[i] = new Dictionary<GDID, PilePointer>();
+
       m_Pile.Purge();
     }
 

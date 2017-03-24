@@ -37,10 +37,10 @@ namespace SocialTrading
     public User(GDID id)
     {
       ID = id;
-      m_Trades = new List<Trade>(16);
+    //  m_Trades = new List<Trade>(16);
     }
 
-    private List<Trade> m_Trades;
+   // private List<Trade> m_Trades;
 
     public GDID      ID          { get; private set; }
     public string    Name        { get; set; }
@@ -52,7 +52,7 @@ namespace SocialTrading
     public bool      IsVendor    { get; set; }
     public bool?     PayoutApproved { get; set; }
     public bool?     ReturnApproved { get; set; }
-    public IEnumerable<Trade> Trades  { get { return m_Trades; } }
+  //  public IEnumerable<Trade> Trades  { get { return m_Trades; } }
     public float     Age
     {
       get { return (float)(App.TimeSource.Now - DOB).TotalDays / 365f; }
@@ -60,10 +60,10 @@ namespace SocialTrading
 
     public void AddTrade(Trade trade)
     {
-      if (m_Trades.Count == MAX_TRADE_COUNT)
-        m_Trades.RemoveAt(0);
+   //   if (m_Trades.Count == MAX_TRADE_COUNT)
+   //     m_Trades.RemoveAt(0);
 
-      m_Trades.Add(trade);
+   //   m_Trades.Add(trade);
     }
 
   }

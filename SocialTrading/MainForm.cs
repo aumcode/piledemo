@@ -38,10 +38,15 @@ namespace SocialTrading
     {
       m_Pile = new DefaultPile();
       m_Pile.Configure(null);
+      m_Pile.SegmentSize = 1024 * 1024 * 1024;
+      m_Pile.Start();
       m_CLRStore  = new CLRSocialTradingStore();
-      m_PileStore = new PileSocialTradingStore();
+      m_PileStore = new PileSocialTradingStore(m_Pile);
       m_CLRThreads = new ThreadSet(m_CLRStore);
       m_PileThreads = new ThreadSet(m_PileStore);
+
+      tmrUI.Interval = TIMER_NORM_MS;
+      tmrUI.Enabled = true;
     }
 
     private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -103,7 +108,23 @@ namespace SocialTrading
                              sbPileReads.Value,
                              sbPileWrites.Value,
                              sbPileDeletes.Value);
+      //--------------------
 
+      while(true)
+      {
+        var msg = m_CLRThreads.TryGetLog();
+        if (msg == null) break;
+        lbLog.Items.Insert(0, msg);
+        if (lbLog.Items.Count > 100) lbLog.Items.RemoveAt(lbLog.Items.Count - 1);
+      }
+
+      while (true)
+      {
+        var msg = m_CLRThreads.TryGetLog();
+        if (msg == null) break;
+        lbLog.Items.Insert(0, msg);
+        if (lbLog.Items.Count > 100) lbLog.Items.RemoveAt(lbLog.Items.Count - 1);
+      }
 
     }
 

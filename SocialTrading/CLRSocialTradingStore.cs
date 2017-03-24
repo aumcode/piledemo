@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
 using NFX.DataAccess.Distributed;
 
@@ -17,6 +17,15 @@ namespace SocialTrading
       Purge();
     }
 
+    private long m_IDSeed;
+
+    public long IDSeed { get { return m_IDSeed; } }
+
+    public GDID MakeID()
+    {
+      return new GDID(0, (ulong)Interlocked.Increment(ref m_IDSeed));
+    }
+
     private Dictionary<GDID, User> getBucket(GDID id)
     {
       return m_Data[id.Counter & 0xff];
@@ -24,7 +33,7 @@ namespace SocialTrading
 
     private Dictionary<GDID, User>[] m_Data;
 
-    public long Count { get { return m_Data.Sum(d => { lock(d) return d.Count; }); }}
+    public long Count { get { return m_Data.Sum(d => { lock(d) return (long)d.Count; }); }}
 
     public User AcceptTrade(GDID gUser, User.Trade trade)
     {
