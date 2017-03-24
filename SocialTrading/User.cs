@@ -5,7 +5,7 @@ using NFX;
 using NFX.Collections;
 using NFX.DataAccess.Distributed;
 
-namespace PD.SocialTrading
+namespace SocialTrading
 {
   public class User
   {
