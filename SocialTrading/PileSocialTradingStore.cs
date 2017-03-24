@@ -109,5 +109,10 @@ namespace SocialTrading
       return false;
     }
 
+    public void Purge()
+    {
+      m_Pile.Purge();
+    }
+
   }
 }

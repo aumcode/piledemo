@@ -34,19 +34,16 @@ namespace SocialTrading
     public const int MAX_TRADE_COUNT = 256;
 
     private User(){ }
-    public User(GDID id, string name, DateTime dob)
+    public User(GDID id)
     {
-      ID = id;
-      Name = name ?? "<anonymous>";
-      DOB = dob;
       m_Trades = new List<Trade>(16);
     }
 
     private List<Trade> m_Trades;
 
-    public GDID      ID          { get; private set; }
-    public string    Name        { get; private set; }
-    public DateTime  DOB         { get; private set; }
+    public GDID      ID          { get; set; }
+    public string    Name        { get; set; }
+    public DateTime  DOB         { get; set; }
     public StringMap SocialMsg   { get; set; }
     public ulong     BuyerScore  { get; set; }
     public ulong     SellerScore { get; set; }

@@ -23,6 +23,13 @@ namespace SocialTrading
 
     private const int TIMER_NORM_MS = 250;
 
+
+    private IUserStore m_CLRStore;
+    private IUserStore m_PileStore;
+
+    private ThreadSet m_CLRThreads;
+    private ThreadSet m_PileThreads;
+
     private DefaultPile m_Pile;
     private DateTime m_PriorTimer = App.TimeSource.UTCNow;
     private List<int> m_Jitters = new List<int>(128);
@@ -31,11 +38,19 @@ namespace SocialTrading
     {
       m_Pile = new DefaultPile();
       m_Pile.Configure(null);
+      m_CLRStore  = new CLRSocialTradingStore();
+      m_PileStore = new PileSocialTradingStore();
+      m_CLRThreads = new ThreadSet(m_CLRStore);
+      m_PileThreads = new ThreadSet(m_PileStore);
     }
 
     private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
     {
       m_Pile.WaitForCompleteStop();
+      m_CLRStore = null;
+      m_PileStore = null;
+      DisposableObject.DisposeAndNull(ref m_CLRThreads);
+      DisposableObject.DisposeAndNull(ref m_PileThreads);
     }
 
     private void tmrUI_Tick(object sender, EventArgs e)
@@ -76,7 +91,20 @@ namespace SocialTrading
       btnPurge.Enabled = btnCrawl.Enabled = m_Pile.Status == NFX.ServiceModel.ControlStatus.Active;
 
       //-----
-      stbCLRObjectCount.Text = "{0:n}".Args(obs.Count);
+      stbCLRObjectCount.Text = "{0:n}".Args(m_CLRStore.Count);
+      //----
+
+      m_CLRThreads.Set(tbCLRThreads.Text.AsInt(0),
+                       sbCLRReads.Value,
+                       sbCLRWrites.Value,
+                       sbCLRDeletes.Value);
+
+      m_PileThreads.Set(tbPileThreads.Text.AsInt(0),
+                             sbPileReads.Value,
+                             sbPileWrites.Value,
+                             sbPileDeletes.Value);
+
+
     }
 
     private void lblPlotJitter_Paint(object sender, PaintEventArgs e)
@@ -109,7 +137,7 @@ namespace SocialTrading
 
     private void btnPurge_Click(object sender, EventArgs e)
     {
-      m_Pile.Purge();
+      m_PileStore.Purge();
     }
 
     private void btnCrawl_Click(object sender, EventArgs e)
@@ -128,26 +156,9 @@ namespace SocialTrading
     }
 
 
-    private List<AAA> obs = new List<AAA>();
-    private class AAA
-    {
-      public string ID;
-      public string NAME;
-      public decimal Salary;
-      public AAA[] Next;
-    }
-
-
     private void btnCLRPurge_Click(object sender, EventArgs e)
     {
-      for (var i = 0; i < 1000000; i++)
-      {
-        var d = new AAA { ID = "id" + i, NAME = "wedwew" + i, Salary = 4326 };
-        if (i % 3 == 0)
-          d.Next = new AAA[1];// i%7];
-        obs.Add(d);
-      }
-
+      m_CLRStore.Purge();
     }
   }
 }

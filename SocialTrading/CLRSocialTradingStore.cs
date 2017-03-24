@@ -14,9 +14,7 @@ namespace SocialTrading
 
     public CLRSocialTradingStore()
     {
-      m_Data = new Dictionary<GDID, User>[0xff];
-      for (var i = 0; i < m_Data.Length; i++)
-        m_Data[i] = new Dictionary<GDID, User>();
+      Purge();
     }
 
     private Dictionary<GDID, User> getBucket(GDID id)
@@ -71,6 +69,13 @@ namespace SocialTrading
       var d = getBucket(gUser);
       lock (d)
         return d.Remove(gUser);
+    }
+
+    public void Purge()
+    {
+      m_Data = new Dictionary<GDID, User>[0xff];
+      for (var i = 0; i < m_Data.Length; i++)
+        m_Data[i] = new Dictionary<GDID, User>();
     }
 
   }
