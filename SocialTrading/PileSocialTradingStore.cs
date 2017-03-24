@@ -16,7 +16,7 @@ namespace SocialTrading
 
     public PileSocialTradingStore()
     {
-      m_Data = new Dictionary<GDID, PilePointer>[0xff];
+      m_Data = new Dictionary<GDID, PilePointer>[0xff+1];
       for (var i = 0; i < m_Data.Length; i++)
         m_Data[i] = new Dictionary<GDID, PilePointer>();
 

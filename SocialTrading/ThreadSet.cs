@@ -18,6 +18,7 @@ namespace SocialTrading
     {
       m_Store = store;
       m_Log = new ConcurrentQueue<string>();
+      m_List = new List<Thread>();
     }
 
     private IUserStore m_Store;
@@ -98,8 +99,8 @@ namespace SocialTrading
             }
             else
             {
-              var id = new GDID(0, (ulong)count);
               count++;
+              var id = new GDID(0, (ulong)count);
               user = makeUser(id);
             }
 

@@ -36,12 +36,13 @@ namespace SocialTrading
     private User(){ }
     public User(GDID id)
     {
+      ID = id;
       m_Trades = new List<Trade>(16);
     }
 
     private List<Trade> m_Trades;
 
-    public GDID      ID          { get; set; }
+    public GDID      ID          { get; private set; }
     public string    Name        { get; set; }
     public DateTime  DOB         { get; set; }
     public StringMap SocialMsg   { get; set; }
