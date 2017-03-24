@@ -114,11 +114,14 @@ namespace SocialTrading
 
     public void Purge()
     {
-      m_Data = new Dictionary<GDID, PilePointer>[0xff + 1];
-      for (var i = 0; i < m_Data.Length; i++)
-        m_Data[i] = new Dictionary<GDID, PilePointer>();
+      var data =  new Dictionary<GDID, PilePointer>[0xff + 1];
+      for (var i = 0; i < data.Length; i++)
+        data[i] = new Dictionary<GDID, PilePointer>();
+
+      m_Data = data;
 
       m_Pile.Purge();
+      m_IDSeed = 0;
     }
 
   }

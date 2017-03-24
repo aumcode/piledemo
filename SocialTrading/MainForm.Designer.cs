@@ -31,10 +31,10 @@
       this.components = new System.ComponentModel.Container();
       this.tmrUI = new System.Windows.Forms.Timer(this.components);
       this.pnlTop = new System.Windows.Forms.Panel();
+      this.lbLog = new System.Windows.Forms.ListBox();
       this.btnGC = new System.Windows.Forms.Button();
       this.statusStrip = new System.Windows.Forms.StatusStrip();
       this.lblJitter = new System.Windows.Forms.ToolStripStatusLabel();
-      this.lblPlotJitter = new System.Windows.Forms.ToolStripStatusLabel();
       this.lblRamAvailable = new System.Windows.Forms.ToolStripStatusLabel();
       this.pnlCLR = new System.Windows.Forms.Panel();
       this.panel1 = new System.Windows.Forms.Panel();
@@ -50,13 +50,12 @@
       this.label3 = new System.Windows.Forms.Label();
       this.tbCLRThreads = new System.Windows.Forms.TextBox();
       this.label1 = new System.Windows.Forms.Label();
-      this.splitter1 = new System.Windows.Forms.Splitter();
       this.pnlPile = new System.Windows.Forms.Panel();
       this.chkSpeed = new System.Windows.Forms.CheckBox();
       this.panel2 = new System.Windows.Forms.Panel();
       this.stbTotalSegments = new System.Windows.Forms.TextBox();
       this.label15 = new System.Windows.Forms.Label();
-      this.listBox1 = new System.Windows.Forms.ListBox();
+      this.lbPileLog = new System.Windows.Forms.ListBox();
       this.stbSegments = new System.Windows.Forms.TextBox();
       this.label14 = new System.Windows.Forms.Label();
       this.stbOverheadBytesObject = new System.Windows.Forms.TextBox();
@@ -86,13 +85,17 @@
       this.label4 = new System.Windows.Forms.Label();
       this.tbPileThreads = new System.Windows.Forms.TextBox();
       this.label2 = new System.Windows.Forms.Label();
-      this.lbLog = new System.Windows.Forms.ListBox();
+      this.pnlJitter = new System.Windows.Forms.Panel();
+      this.pnlMain = new System.Windows.Forms.Panel();
+      this.splitter1 = new System.Windows.Forms.Splitter();
+      this.lbCLRLog = new System.Windows.Forms.ListBox();
       this.pnlTop.SuspendLayout();
       this.statusStrip.SuspendLayout();
       this.pnlCLR.SuspendLayout();
       this.panel1.SuspendLayout();
       this.pnlPile.SuspendLayout();
       this.panel2.SuspendLayout();
+      this.pnlMain.SuspendLayout();
       this.SuspendLayout();
       // 
       // tmrUI
@@ -107,8 +110,21 @@
       this.pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
       this.pnlTop.Location = new System.Drawing.Point(0, 0);
       this.pnlTop.Name = "pnlTop";
-      this.pnlTop.Size = new System.Drawing.Size(926, 113);
+      this.pnlTop.Size = new System.Drawing.Size(1012, 113);
       this.pnlTop.TabIndex = 0;
+      // 
+      // lbLog
+      // 
+      this.lbLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.lbLog.Font = new System.Drawing.Font("Roboto Condensed", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.lbLog.FormattingEnabled = true;
+      this.lbLog.ItemHeight = 16;
+      this.lbLog.Location = new System.Drawing.Point(84, 6);
+      this.lbLog.Name = "lbLog";
+      this.lbLog.Size = new System.Drawing.Size(916, 100);
+      this.lbLog.TabIndex = 1;
       // 
       // btnGC
       // 
@@ -126,11 +142,10 @@
       // 
       this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblJitter,
-            this.lblPlotJitter,
             this.lblRamAvailable});
-      this.statusStrip.Location = new System.Drawing.Point(0, 693);
+      this.statusStrip.Location = new System.Drawing.Point(0, 740);
       this.statusStrip.Name = "statusStrip";
-      this.statusStrip.Size = new System.Drawing.Size(926, 22);
+      this.statusStrip.Size = new System.Drawing.Size(1012, 22);
       this.statusStrip.TabIndex = 1;
       this.statusStrip.Text = "statusStrip1";
       // 
@@ -139,13 +154,6 @@
       this.lblJitter.Name = "lblJitter";
       this.lblJitter.Size = new System.Drawing.Size(109, 17);
       this.lblJitter.Text = "Jitter:           0.00 sec";
-      // 
-      // lblPlotJitter
-      // 
-      this.lblPlotJitter.Name = "lblPlotJitter";
-      this.lblPlotJitter.Size = new System.Drawing.Size(73, 17);
-      this.lblPlotJitter.Text = "                      ";
-      this.lblPlotJitter.Paint += new System.Windows.Forms.PaintEventHandler(this.lblPlotJitter_Paint);
       // 
       // lblRamAvailable
       // 
@@ -167,21 +175,25 @@
       this.pnlCLR.Controls.Add(this.label3);
       this.pnlCLR.Controls.Add(this.tbCLRThreads);
       this.pnlCLR.Controls.Add(this.label1);
-      this.pnlCLR.Dock = System.Windows.Forms.DockStyle.Left;
-      this.pnlCLR.Location = new System.Drawing.Point(0, 113);
+      this.pnlCLR.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.pnlCLR.Location = new System.Drawing.Point(517, 0);
       this.pnlCLR.Name = "pnlCLR";
       this.pnlCLR.Padding = new System.Windows.Forms.Padding(2);
-      this.pnlCLR.Size = new System.Drawing.Size(404, 580);
+      this.pnlCLR.Size = new System.Drawing.Size(495, 593);
       this.pnlCLR.TabIndex = 2;
       // 
       // panel1
       // 
+      this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
       this.panel1.BackColor = System.Drawing.Color.DarkGray;
+      this.panel1.Controls.Add(this.lbCLRLog);
       this.panel1.Controls.Add(this.stbCLRObjectCount);
       this.panel1.Controls.Add(this.label7);
       this.panel1.Location = new System.Drawing.Point(15, 315);
       this.panel1.Name = "panel1";
-      this.panel1.Size = new System.Drawing.Size(366, 220);
+      this.panel1.Size = new System.Drawing.Size(463, 254);
       this.panel1.TabIndex = 11;
       // 
       // stbCLRObjectCount
@@ -212,7 +224,7 @@
       this.btnCLRPurge.BackColor = System.Drawing.Color.Red;
       this.btnCLRPurge.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
       this.btnCLRPurge.ForeColor = System.Drawing.Color.Yellow;
-      this.btnCLRPurge.Location = new System.Drawing.Point(312, 20);
+      this.btnCLRPurge.Location = new System.Drawing.Point(403, 20);
       this.btnCLRPurge.Name = "btnCLRPurge";
       this.btnCLRPurge.Size = new System.Drawing.Size(75, 37);
       this.btnCLRPurge.TabIndex = 10;
@@ -236,7 +248,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
       this.sbCLRDeletes.Location = new System.Drawing.Point(15, 225);
       this.sbCLRDeletes.Name = "sbCLRDeletes";
-      this.sbCLRDeletes.Size = new System.Drawing.Size(372, 27);
+      this.sbCLRDeletes.Size = new System.Drawing.Size(463, 27);
       this.sbCLRDeletes.TabIndex = 8;
       // 
       // lblCLRWrites
@@ -265,7 +277,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
       this.sbCLRWrites.Location = new System.Drawing.Point(15, 158);
       this.sbCLRWrites.Name = "sbCLRWrites";
-      this.sbCLRWrites.Size = new System.Drawing.Size(372, 27);
+      this.sbCLRWrites.Size = new System.Drawing.Size(463, 27);
       this.sbCLRWrites.TabIndex = 5;
       // 
       // sbCLRReads
@@ -274,7 +286,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
       this.sbCLRReads.Location = new System.Drawing.Point(15, 89);
       this.sbCLRReads.Name = "sbCLRReads";
-      this.sbCLRReads.Size = new System.Drawing.Size(372, 27);
+      this.sbCLRReads.Size = new System.Drawing.Size(463, 27);
       this.sbCLRReads.TabIndex = 4;
       // 
       // label3
@@ -302,19 +314,10 @@
       this.label1.ForeColor = System.Drawing.Color.White;
       this.label1.Location = new System.Drawing.Point(2, 2);
       this.label1.Name = "label1";
-      this.label1.Size = new System.Drawing.Size(400, 13);
+      this.label1.Size = new System.Drawing.Size(491, 13);
       this.label1.TabIndex = 0;
       this.label1.Text = "CLR";
       this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-      // 
-      // splitter1
-      // 
-      this.splitter1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-      this.splitter1.Location = new System.Drawing.Point(404, 113);
-      this.splitter1.Name = "splitter1";
-      this.splitter1.Size = new System.Drawing.Size(5, 580);
-      this.splitter1.TabIndex = 3;
-      this.splitter1.TabStop = false;
       // 
       // pnlPile
       // 
@@ -336,11 +339,11 @@
       this.pnlPile.Controls.Add(this.label4);
       this.pnlPile.Controls.Add(this.tbPileThreads);
       this.pnlPile.Controls.Add(this.label2);
-      this.pnlPile.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.pnlPile.Location = new System.Drawing.Point(409, 113);
+      this.pnlPile.Dock = System.Windows.Forms.DockStyle.Left;
+      this.pnlPile.Location = new System.Drawing.Point(0, 0);
       this.pnlPile.Name = "pnlPile";
       this.pnlPile.Padding = new System.Windows.Forms.Padding(2);
-      this.pnlPile.Size = new System.Drawing.Size(517, 580);
+      this.pnlPile.Size = new System.Drawing.Size(517, 593);
       this.pnlPile.TabIndex = 4;
       // 
       // chkSpeed
@@ -357,12 +360,13 @@
       // 
       // panel2
       // 
-      this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+      this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
       this.panel2.BackColor = System.Drawing.Color.DarkGray;
       this.panel2.Controls.Add(this.stbTotalSegments);
       this.panel2.Controls.Add(this.label15);
-      this.panel2.Controls.Add(this.listBox1);
+      this.panel2.Controls.Add(this.lbPileLog);
       this.panel2.Controls.Add(this.stbSegments);
       this.panel2.Controls.Add(this.label14);
       this.panel2.Controls.Add(this.stbOverheadBytesObject);
@@ -404,16 +408,18 @@
       this.label15.TabIndex = 15;
       this.label15.Text = "Total Segs";
       // 
-      // listBox1
+      // lbPileLog
       // 
-      this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+      this.lbPileLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.listBox1.FormattingEnabled = true;
-      this.listBox1.Location = new System.Drawing.Point(199, 19);
-      this.listBox1.Name = "listBox1";
-      this.listBox1.Size = new System.Drawing.Size(255, 212);
-      this.listBox1.TabIndex = 14;
+      this.lbPileLog.Font = new System.Drawing.Font("Roboto Condensed", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.lbPileLog.FormattingEnabled = true;
+      this.lbPileLog.ItemHeight = 16;
+      this.lbPileLog.Location = new System.Drawing.Point(199, 19);
+      this.lbPileLog.Name = "lbPileLog";
+      this.lbPileLog.Size = new System.Drawing.Size(255, 228);
+      this.lbPileLog.TabIndex = 14;
       // 
       // stbSegments
       // 
@@ -718,24 +724,56 @@
       this.label2.Text = "NFX Pile";
       this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
       // 
-      // lbLog
+      // pnlJitter
       // 
-      this.lbLog.Font = new System.Drawing.Font("Roboto Condensed", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.lbLog.FormattingEnabled = true;
-      this.lbLog.ItemHeight = 16;
-      this.lbLog.Location = new System.Drawing.Point(84, 6);
-      this.lbLog.Name = "lbLog";
-      this.lbLog.Size = new System.Drawing.Size(832, 100);
-      this.lbLog.TabIndex = 1;
+      this.pnlJitter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+      this.pnlJitter.Dock = System.Windows.Forms.DockStyle.Bottom;
+      this.pnlJitter.Location = new System.Drawing.Point(0, 706);
+      this.pnlJitter.Name = "pnlJitter";
+      this.pnlJitter.Size = new System.Drawing.Size(1012, 34);
+      this.pnlJitter.TabIndex = 5;
+      this.pnlJitter.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlJitter_Paint);
+      // 
+      // pnlMain
+      // 
+      this.pnlMain.Controls.Add(this.splitter1);
+      this.pnlMain.Controls.Add(this.pnlCLR);
+      this.pnlMain.Controls.Add(this.pnlPile);
+      this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.pnlMain.Location = new System.Drawing.Point(0, 113);
+      this.pnlMain.Name = "pnlMain";
+      this.pnlMain.Size = new System.Drawing.Size(1012, 593);
+      this.pnlMain.TabIndex = 6;
+      // 
+      // splitter1
+      // 
+      this.splitter1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+      this.splitter1.Location = new System.Drawing.Point(517, 0);
+      this.splitter1.Name = "splitter1";
+      this.splitter1.Size = new System.Drawing.Size(6, 593);
+      this.splitter1.TabIndex = 3;
+      this.splitter1.TabStop = false;
+      // 
+      // lbCLRLog
+      // 
+      this.lbCLRLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.lbCLRLog.Font = new System.Drawing.Font("Roboto Condensed", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.lbCLRLog.FormattingEnabled = true;
+      this.lbCLRLog.ItemHeight = 16;
+      this.lbCLRLog.Location = new System.Drawing.Point(10, 48);
+      this.lbCLRLog.Name = "lbCLRLog";
+      this.lbCLRLog.Size = new System.Drawing.Size(362, 196);
+      this.lbCLRLog.TabIndex = 15;
       // 
       // MainForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(926, 715);
-      this.Controls.Add(this.pnlPile);
-      this.Controls.Add(this.splitter1);
-      this.Controls.Add(this.pnlCLR);
+      this.ClientSize = new System.Drawing.Size(1012, 762);
+      this.Controls.Add(this.pnlMain);
+      this.Controls.Add(this.pnlJitter);
       this.Controls.Add(this.statusStrip);
       this.Controls.Add(this.pnlTop);
       this.Name = "MainForm";
@@ -753,6 +791,7 @@
       this.pnlPile.PerformLayout();
       this.panel2.ResumeLayout(false);
       this.panel2.PerformLayout();
+      this.pnlMain.ResumeLayout(false);
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -766,7 +805,6 @@
     private System.Windows.Forms.ToolStripStatusLabel lblJitter;
     private System.Windows.Forms.ToolStripStatusLabel lblRamAvailable;
     private System.Windows.Forms.Panel pnlCLR;
-    private System.Windows.Forms.Splitter splitter1;
     private System.Windows.Forms.Panel pnlPile;
     private System.Windows.Forms.Label label1;
     private System.Windows.Forms.Label label2;
@@ -791,7 +829,6 @@
     private System.Windows.Forms.TextBox tbSegSizeMb;
     private System.Windows.Forms.Label label4;
     private System.Windows.Forms.TextBox tbPileThreads;
-    private System.Windows.Forms.ToolStripStatusLabel lblPlotJitter;
     private System.Windows.Forms.Panel panel1;
     private System.Windows.Forms.TextBox stbCLRObjectCount;
     private System.Windows.Forms.Label label7;
@@ -813,11 +850,15 @@
     private System.Windows.Forms.Label label8;
     private System.Windows.Forms.Button btnCrawl;
     private System.Windows.Forms.Button btnPurge;
-    private System.Windows.Forms.ListBox listBox1;
+    private System.Windows.Forms.ListBox lbPileLog;
     private System.Windows.Forms.CheckBox chkSpeed;
     private System.Windows.Forms.TextBox stbTotalSegments;
     private System.Windows.Forms.Label label15;
     private System.Windows.Forms.ListBox lbLog;
+    private System.Windows.Forms.Panel pnlJitter;
+    private System.Windows.Forms.Panel pnlMain;
+    private System.Windows.Forms.Splitter splitter1;
+    private System.Windows.Forms.ListBox lbCLRLog;
   }
 }
 

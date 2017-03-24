@@ -70,10 +70,13 @@ namespace SocialTrading
       //-------------------------------------
 
       m_Jitters.Add(msJitter);
-      if (m_Jitters.Count == lblPlotJitter.Width) m_Jitters.RemoveAt(0);
+      var jc = pnlJitter.Width / 3;
+      if (jc < 100) jc = 100;
+      while (m_Jitters.Count == jc) m_Jitters.RemoveAt(0);
       var max = m_Jitters.Count >0 ? m_Jitters.Max() : 0;
-      lblJitter.Text = "Jitter: {0,12:n3} sec. Max: {1,12:n3} sec.".Args(msJitter / 1000f, max / 1000f);
-      statusStrip.Refresh();
+      var maxRecent = m_Jitters.Count > 0 ? m_Jitters.Reverse<int>().Take(25).Max() : 0;
+      lblJitter.Text = "Jitter: {0,12:n3} sec.   All Max: {1,10:n3} sec.   Recent Max: {2,10:n3} sec.".Args(msJitter / 1000f, max / 1000f, maxRecent / 1000f);
+      pnlJitter.Refresh();
 
       //-------------------------------------
 
@@ -120,35 +123,69 @@ namespace SocialTrading
 
       while (true)
       {
-        var msg = m_CLRThreads.TryGetLog();
+        var msg = m_PileThreads.TryGetLog();
         if (msg == null) break;
         lbLog.Items.Insert(0, msg);
         if (lbLog.Items.Count > 100) lbLog.Items.RemoveAt(lbLog.Items.Count - 1);
       }
 
+      //-----------------------------------------------------------------------------------------------------------
+      long rHit, rMiss, dHit, dMiss, writes;
+      m_CLRThreads.Stats(out rHit, out rMiss, out dHit, out dMiss, out writes);
+
+      rHit   = (long)(rHit   / (msSincePrior / 1000d));
+      rMiss  = (long)(rMiss  / (msSincePrior / 1000d));
+      dHit   = (long)(dHit   / (msSincePrior / 1000d));
+      dMiss  = (long)(dMiss  / (msSincePrior / 1000d));
+      writes = (long)(writes / (msSincePrior / 1000d));
+
+
+      var txt = "rH: {0:n0} rM: {1:n0}|R: {2:n0}   dH: {3:n0} dM: {4:n0}|D: {5:n0}  |W: {6:n0}  || T: {7:n0}"
+                .Args(rHit, rMiss, rHit+rMiss,  dHit, dMiss, dHit+dMiss,   writes,   rHit+rMiss+dHit+dMiss+writes);
+      lbCLRLog.Items.Insert(0, txt);
+      while (lbCLRLog.Items.Count > 100) lbCLRLog.Items.RemoveAt(lbCLRLog.Items.Count-1);
+
+      //----
+      m_PileThreads.Stats(out rHit, out rMiss, out dHit, out dMiss, out writes);
+
+      rHit   = (long)(rHit   / (msSincePrior / 1000d));
+      rMiss  = (long)(rMiss  / (msSincePrior / 1000d));
+      dHit   = (long)(dHit   / (msSincePrior / 1000d));
+      dMiss  = (long)(dMiss  / (msSincePrior / 1000d));
+      writes = (long)(writes / (msSincePrior / 1000d));
+
+      txt = "rH: {0:n0} rM: {1:n0}|R: {2:n0}   dH: {3:n0} dM: {4:n0}|D: {5:n0}  |W: {6:n0}  || T: {7:n0}"
+            .Args(rHit, rMiss, rHit + rMiss, dHit, dMiss, dHit + dMiss, writes, rHit + rMiss + dHit + dMiss + writes);
+      lbPileLog.Items.Insert(0, txt);
+      while (lbPileLog.Items.Count > 100) lbPileLog.Items.RemoveAt(lbPileLog.Items.Count - 1);
+
+    }
+
+    private void pnlJitter_Paint(object sender, PaintEventArgs e)
+    {
+      if (m_Jitters.Count == 0) return;
+      var x = pnlJitter.Width;
+      var i = m_Jitters.Count - 1;
+      var max = m_Jitters.Max();
+      if (max == 0) return;
+      while (i >= 0 && x >= 0)
+      {
+        var jit = m_Jitters[i];
+        var y = (int)(jit * (pnlJitter.Height / (float)max));
+
+        var pen = jit > 1500 ? Pens.Red :
+                  jit > 1000 ? Pens.Coral :
+                  jit > 700 ? Pens.Gold :
+                  jit > 250 ? Pens.YellowGreen : Pens.LawnGreen;
+
+        e.Graphics.DrawRectangle(pen, x, pnlJitter.Height-y, 1, y);
+        x-=3;
+        i--;
+      }
     }
 
     private void lblPlotJitter_Paint(object sender, PaintEventArgs e)
     {
-      if (m_Jitters.Count==0) return;
-      var x = lblPlotJitter.Width;
-      var i = m_Jitters.Count - 1;
-      var max = m_Jitters.Max();
-      if (max == 0) return;
-      while(i>=0 && x >= 0)
-      {
-        var jit = m_Jitters[i];
-        var y = (int)(jit * (lblPlotJitter.Height / (float)max));
-
-        var pen = jit > 1500 ? Pens.Red :
-                  jit > 1000 ? Pens.OrangeRed :
-                  jit > 700 ? Pens.Olive :
-                  jit > 250 ? Pens.DarkOliveGreen : Pens.Lime;
-
-        e.Graphics.DrawLine(pen, x, lblPlotJitter.Height, x, lblPlotJitter.Height - y);
-        x--;
-        i--;
-      }
     }
 
     private void chkSpeed_CheckedChanged(object sender, EventArgs e)
@@ -181,5 +218,6 @@ namespace SocialTrading
     {
       m_CLRStore.Purge();
     }
+
   }
 }

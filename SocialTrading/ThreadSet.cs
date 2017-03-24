@@ -28,9 +28,15 @@ namespace SocialTrading
     private int m_Deletes;
 
     private ConcurrentQueue<string> m_Log;
-
-
     private List<Thread> m_List;
+
+
+    private long m_stat_ReadHit;
+    private long m_stat_ReadMiss;
+    private long m_stat_Write;
+    private long m_stat_DeleteHit;
+    private long m_stat_DeleteMiss;
+
 
     public int Count { get { return m_List.Count; } }
 
@@ -41,6 +47,26 @@ namespace SocialTrading
       return result;
     }
 
+    public void Log(string message)
+    {
+      if (m_Log.Count > 1000) return;
+      m_Log.Enqueue(message);
+    }
+
+
+    public void Stats(out long rHit,
+                      out long rMiss,
+                      out long dHit,
+                      out long dMiss,
+                      out long write
+                      )
+    {
+      rHit  = Interlocked.Exchange(ref m_stat_ReadHit, 0);
+      rMiss = Interlocked.Exchange(ref m_stat_ReadMiss, 0);
+      dHit  = Interlocked.Exchange(ref m_stat_DeleteHit, 0);
+      dMiss = Interlocked.Exchange(ref m_stat_DeleteMiss, 0);
+      write = Interlocked.Exchange(ref m_stat_Write, 0);
+    }
 
 
     public void Set(int threads, int reads, int writes, int deletes)
@@ -52,12 +78,12 @@ namespace SocialTrading
       lock(m_List)
       {
         while (m_List.Count > threads) m_List.RemoveAt(0);
-        while (m_List.Count< threads)
+        while (m_List.Count < threads)
         {
           var t = new Thread(threadSpin);
           t.IsBackground = true;
-          t.Start(m_List.Count);
           m_List.Add(t);
+          t.Start(m_List.Count);
         }
       }
     }
@@ -66,13 +92,14 @@ namespace SocialTrading
 
     private void threadSpin(object thread)
     {
+      Log("{0} {1} Thread Started".Args(m_Store.GetType().Name, App.TimeSource.Now));
       var num = (int)thread;
       var missing = new List<GDID>();
       while(!DisposeStarted)
       {
         lock(m_List)
         {
-          if (m_List.Count < num) return;
+          if (m_List.Count < num) break;
         }
 
         try
@@ -84,7 +111,14 @@ namespace SocialTrading
 
             var existing = m_Store.Get(gExisting);
             if (existing == null)
+            {
               missing.Add(gExisting);
+              Interlocked.Increment(ref m_stat_ReadMiss);
+            }
+            else
+            {
+              Interlocked.Increment(ref m_stat_ReadHit);
+            }
           }
 
           for (var i = 0; i < m_Deletes; i++)
@@ -93,13 +127,20 @@ namespace SocialTrading
 
             var deleted = m_Store.Remove(gExisting);
             if (deleted)
+            {
               missing.Add(gExisting);
+              Interlocked.Increment(ref m_stat_DeleteHit);
+            }
+            else
+            {
+              Interlocked.Increment(ref m_stat_DeleteHit);
+            }
           }
 
 
           for (var i = 0; i < m_Writes; i++)
           {
-            User user;// = new User(id) { };
+            User user;
             if (missing.Count > 0)
             {
               user = makeUser(missing[missing.Count - 1]);
@@ -112,23 +153,33 @@ namespace SocialTrading
             }
 
             m_Store.Put(user);
+            Interlocked.Increment(ref m_stat_Write);
           }
         }
         catch(Exception error)
         {
-          m_Log.Enqueue(error.ToMessageWithType());
+          Log("{0} {1} Thread Exception: {2}".Args(m_Store.GetType().Name, App.TimeSource.Now, error.ToMessageWithType()));
         }
-
       }
+      Log("{0} {1} Thread Finished".Args(m_Store.GetType().Name, App.TimeSource.Now));
     }
 
     private User makeUser(GDID id)
     {
+      var chance = ExternalRandomGenerator.Instance.NextScaledRandomInteger(0, 100);
+      NFX.Collections.StringMap sm = null;
+      if (false)//(chance>50)
+      {
+        sm = new NFX.Collections.StringMap();
+        for (var i = 0; i < chance % 7; i++)
+          sm.Add("Key-" + i, ExternalRandomGenerator.Instance.NextRandomWebSafeString(4,45));
+      }
+
       return new User(id)
       {
          Name = "Abcds"+id,
          DOB = new DateTime(1980, 1, 1),
-         SocialMsg = new NFX.Collections.StringMap { { "a", "aaa"}, { "b", "bbb"} },
+         SocialMsg = sm,
          BuyerScore = 34,
          SellerScore = 473,
          GVendor = id.Counter%3==0 ? null : (GDID?)id,

@@ -82,9 +82,12 @@ namespace SocialTrading
 
     public void Purge()
     {
-      m_Data = new Dictionary<GDID, User>[0xff+1];
-      for (var i = 0; i < m_Data.Length; i++)
-        m_Data[i] = new Dictionary<GDID, User>();
+      var data = new Dictionary<GDID, User>[0xff+1];
+      for (var i = 0; i < data.Length; i++)
+        data[i] = new Dictionary<GDID, User>();
+
+      m_Data = data;
+      m_IDSeed = 0;
     }
 
   }
