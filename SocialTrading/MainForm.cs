@@ -41,7 +41,7 @@ namespace SocialTrading
       m_Pile.SegmentSize = 512 * 1024 * 1024;
       m_Pile.Start();
       m_CLRStore  = new CLRSocialTradingStore();
-      m_PileStore = new PileSocialTradingStore(m_Pile);
+      m_PileStore = new PileCacheSocialTradingStore(m_Pile);// new PileSocialTradingStore(m_Pile);
       m_CLRThreads = new ThreadSet(m_CLRStore);
       m_PileThreads = new ThreadSet(m_PileStore);
 
