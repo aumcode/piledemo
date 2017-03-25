@@ -138,7 +138,7 @@ namespace SocialTrading
             }
             else
             {
-              Interlocked.Increment(ref m_stat_DeleteHit);
+              Interlocked.Increment(ref m_stat_DeleteMiss);
             }
           }
 
