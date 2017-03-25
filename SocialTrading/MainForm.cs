@@ -147,7 +147,7 @@ namespace SocialTrading
       writes = (long)(writes / (msSincePrior / 1000d));
 
 
-      var txt = "rH: {0:n0} rM: {1:n0}|R: {2:n0}   dH: {3:n0} dM: {4:n0}|D: {5:n0}  |W: {6:n0}  || T: {7:n0}  : {8:n3} ms"
+      var txt = "rH: {0:n0} rM: {1:n0}|R: {2:n0}   dH: {3:n0} dM: {4:n0}|D: {5:n0}  |W: {6:n0}  ( T: {7:n0} ) in {8:n0} ms"
                 .Args(rHit, rMiss, rHit+rMiss,  dHit, dMiss, dHit+dMiss,   writes,   rHit+rMiss+dHit+dMiss+writes, msSincePrior);
       lbCLRLog.Items.Insert(0, txt);
       while (lbCLRLog.Items.Count > 100) lbCLRLog.Items.RemoveAt(lbCLRLog.Items.Count-1);
@@ -161,7 +161,7 @@ namespace SocialTrading
       dMiss  = (long)(dMiss  / (msSincePrior / 1000d));
       writes = (long)(writes / (msSincePrior / 1000d));
 
-      txt = "rH: {0:n0} rM: {1:n0}|R: {2:n0}   dH: {3:n0} dM: {4:n0}|D: {5:n0}  |W: {6:n0}  || T: {7:n0}  : {8:n3} ms"
+      txt = "rH: {0:n0} rM: {1:n0}|R: {2:n0}   dH: {3:n0} dM: {4:n0}|D: {5:n0}  |W: {6:n0}   ( T: {7:n0} ) in {8:n0} ms"
             .Args(rHit, rMiss, rHit + rMiss, dHit, dMiss, dHit + dMiss, writes, rHit + rMiss + dHit + dMiss + writes, msSincePrior);
       lbPileLog.Items.Insert(0, txt);
       while (lbPileLog.Items.Count > 100) lbPileLog.Items.RemoveAt(lbPileLog.Items.Count - 1);
@@ -212,8 +212,9 @@ namespace SocialTrading
     {
       var was = GC.GetTotalMemory(false);
       var w = Stopwatch.StartNew();
-      GC.Collect();
-      Text = "GC Freed {0:n0} bytes in {1:n0} ms".Args(was - GC.GetTotalMemory(false), w.ElapsedMilliseconds);
+      GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true);
+      GC.WaitForPendingFinalizers();
+      Text = "GC Freed {0:n0} bytes in {1:n0} ms".Args(was - GC.GetTotalMemory(true), w.ElapsedMilliseconds);
     }
 
 
@@ -221,6 +222,5 @@ namespace SocialTrading
     {
       m_CLRStore.Purge();
     }
-
   }
 }

@@ -77,7 +77,7 @@ namespace SocialTrading
     {
       var data = new Dictionary<GDID, User>[0xff+1];
       for (var i = 0; i < data.Length; i++)
-        data[i] = new Dictionary<GDID, User>(1024 * 1024);
+        data[i] = new Dictionary<GDID, User>();// 1024 * 1024);
 
       m_Data = data;
       m_IDSeed = 0;

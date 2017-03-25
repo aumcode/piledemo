@@ -174,20 +174,19 @@ namespace SocialTrading
 
     private User makeUser(GDID id)
     {
-    //  var chance = ExternalRandomGenerator.Instance.NextScaledRandomInteger(0, 100);
+      var chance = ExternalRandomGenerator.Instance.NextScaledRandomInteger(0, 100);
       NFX.Collections.StringMap sm = null;
-      //if (chance > 50)
-      //{
-      //  sm = new NFX.Collections.StringMap();
-      //  for (var i = 0; i < chance % 3; i++)
-      //    sm.Add("Key-" + i, "iuydsaaduyfnsdfnuwgfgf" + i);
-      //}
+      if (chance > 40)
+      {
+        sm = new NFX.Collections.StringMap();
+        for (var i = 0; i < (chance & 0x7); i++)
+          sm.Add(i.ToString(), chance.ToString());
+      }
 
       return new User(id)
       {
-         FirstName = "Robinzon "+id.ToString(),
-         LastName  = "Cruzoe " + id.ToString(),
-         Address   = id.ToString() + " Hard Drive Ave, Los Angeles, CA 91606",
+         Name = "Person #"+id.ToString(),
+         Address   = ((id.Counter & 1) == 0) ? id.ToString() + " Hard Drive Ave, Los Angeles, CA 91606" : null,
          DOB = new DateTime(1980, 1, 1),
          SocialMsg = sm,
          BuyerScore = 34,
