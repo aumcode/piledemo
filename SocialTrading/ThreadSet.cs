@@ -155,6 +155,9 @@ namespace SocialTrading
             m_Store.Put(user);
             Interlocked.Increment(ref m_stat_Write);
           }
+
+          //randomize
+          Thread.SpinWait(ExternalRandomGenerator.Instance.NextScaledRandomInteger(10, 1000));
         }
         catch(Exception error)
         {

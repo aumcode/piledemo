@@ -45,23 +45,28 @@ namespace SocialTrading
 
     public User Get(GDID gUser)
     {
-      return (User)m_Cache.GetOrCreateTable<GDID>("user").Get(gUser);
+      return (User)getTable(gUser).Get(gUser);
     }
 
     public bool Put(User user)
     {
-      return m_Cache.GetOrCreateTable<GDID>("user").Put(user.ID, user, maxAgeSec: int.MaxValue) == PutResult.Inserted;
+      return getTable(user.ID).Put(user.ID, user, maxAgeSec: int.MaxValue) == PutResult.Inserted;
     }
 
     public bool Remove(GDID gUser)
     {
-      return m_Cache.GetOrCreateTable<GDID>("user").Remove(gUser);
+      return getTable(gUser).Remove(gUser);
     }
 
     public void Purge()
     {
       m_Cache.PurgeAll();
       m_IDSeed = 0;
+    }
+
+    private ICacheTable<GDID> getTable(GDID gUser)
+    {
+      return m_Cache.GetOrCreateTable<GDID>((gUser.Counter & 0x0fff).ToString());
     }
 
   }

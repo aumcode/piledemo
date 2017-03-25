@@ -10,7 +10,7 @@ namespace SocialTrading
   /// Denotes a contract for the entoty that acts like a store for social user trading
   /// The implementation must be thread-safe for parallel user processing
   /// </summary>
-  public interface IUserStore
+  public interface IUserStore : IDisposable
   {
 
 

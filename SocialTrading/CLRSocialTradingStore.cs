@@ -5,16 +5,22 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
+using NFX;
 using NFX.DataAccess.Distributed;
 
 namespace SocialTrading
 {
-  public class CLRSocialTradingStore : IUserStore
+  public class CLRSocialTradingStore : DisposableObject, IUserStore
   {
 
     public CLRSocialTradingStore()
     {
       Purge();
+    }
+
+    protected override void Destructor()
+    {
+      base.Destructor();
     }
 
     private long m_IDSeed;
@@ -71,7 +77,7 @@ namespace SocialTrading
     {
       var data = new Dictionary<GDID, User>[0xff+1];
       for (var i = 0; i < data.Length; i++)
-        data[i] = new Dictionary<GDID, User>();
+        data[i] = new Dictionary<GDID, User>();// 1024 * 1024);
 
       m_Data = data;
       m_IDSeed = 0;

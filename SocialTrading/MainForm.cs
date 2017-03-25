@@ -41,7 +41,8 @@ namespace SocialTrading
       m_Pile.SegmentSize = 512 * 1024 * 1024;
       m_Pile.Start();
       m_CLRStore  = new CLRSocialTradingStore();
-      m_PileStore = new PileCacheSocialTradingStore(m_Pile);// new PileSocialTradingStore(m_Pile);
+      m_PileStore = new PileSocialTradingStore(m_Pile);
+      //m_PileStore = new PileCacheSocialTradingStore(m_Pile);
       m_CLRThreads = new ThreadSet(m_CLRStore);
       m_PileThreads = new ThreadSet(m_PileStore);
 
@@ -52,8 +53,8 @@ namespace SocialTrading
     private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
     {
       m_Pile.WaitForCompleteStop();
-      m_CLRStore = null;
-      m_PileStore = null;
+      DisposableObject.DisposeAndNull(ref m_CLRStore);
+      DisposableObject.DisposeAndNull(ref m_PileStore);
       DisposableObject.DisposeAndNull(ref m_CLRThreads);
       DisposableObject.DisposeAndNull(ref m_PileThreads);
     }

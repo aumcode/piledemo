@@ -100,7 +100,7 @@ namespace SocialTrading
     {
       var data =  new Dictionary<GDID, PilePointer>[0xff + 1];
       for (var i = 0; i < data.Length; i++)
-        data[i] = new Dictionary<GDID, PilePointer>();
+        data[i] = new Dictionary<GDID, PilePointer>(1024 * 1024);
 
       m_Data = data;
 
