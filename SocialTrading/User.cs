@@ -18,7 +18,9 @@ namespace SocialTrading
 
 
     public GDID      ID          { get; private set; }
-    public string    Name        { get; set; }
+    public string    FirstName   { get; set; }
+    public string    LastName    { get; set; }
+    public string    Address     { get; set; }
     public DateTime  DOB         { get; set; }
     public StringMap SocialMsg   { get; set; }
     public ulong     BuyerScore  { get; set; }

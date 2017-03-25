@@ -95,12 +95,17 @@ namespace SocialTrading
       Log("{0} {1} Thread Started".Args(m_Store.GetType().Name, App.TimeSource.Now));
       var num = (int)thread;
       var missing = new List<GDID>();
+      var cnt = 0;
       while(!DisposeStarted)
       {
-        lock(m_List)
+        if (cnt > 200)
         {
-          if (m_List.Count < num) break;
-        }
+          cnt = 0;
+          lock (m_List)
+          {
+            if (m_List.Count < num) break;
+          }
+        } else cnt++;
 
         try
         {
@@ -157,7 +162,7 @@ namespace SocialTrading
           }
 
           //randomize
-          Thread.SpinWait(ExternalRandomGenerator.Instance.NextScaledRandomInteger(10, 1000));
+          //Thread.SpinWait(ExternalRandomGenerator.Instance.NextScaledRandomInteger(10, 1000));
         }
         catch(Exception error)
         {
@@ -169,18 +174,20 @@ namespace SocialTrading
 
     private User makeUser(GDID id)
     {
-      var chance = ExternalRandomGenerator.Instance.NextScaledRandomInteger(0, 100);
+    //  var chance = ExternalRandomGenerator.Instance.NextScaledRandomInteger(0, 100);
       NFX.Collections.StringMap sm = null;
-      if (chance > 50)
-      {
-        sm = new NFX.Collections.StringMap();
-        for (var i = 0; i < chance % 3; i++)
-          sm.Add("Key-" + i, "iuydsaaduyfnsdfnuwgfgf" + i);
-      }
+      //if (chance > 50)
+      //{
+      //  sm = new NFX.Collections.StringMap();
+      //  for (var i = 0; i < chance % 3; i++)
+      //    sm.Add("Key-" + i, "iuydsaaduyfnsdfnuwgfgf" + i);
+      //}
 
       return new User(id)
       {
-         Name = "Abcds"+id,
+         FirstName = "Robinzon "+id.ToString(),
+         LastName  = "Cruzoe " + id.ToString(),
+         Address   = id.ToString() + " Hard Drive Ave, Los Angeles, CA 91606",
          DOB = new DateTime(1980, 1, 1),
          SocialMsg = sm,
          BuyerScore = 34,

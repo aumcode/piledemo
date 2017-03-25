@@ -38,13 +38,19 @@ namespace SocialTrading
     {
       m_Pile = new DefaultPile();
       m_Pile.Configure(null);
-      m_Pile.SegmentSize = 512 * 1024 * 1024;
+     // m_Pile.SegmentSize = 512 * 1024 * 1024;
       m_Pile.Start();
       m_CLRStore  = new CLRSocialTradingStore();
       m_PileStore = new PileSocialTradingStore(m_Pile);
       //m_PileStore = new PileCacheSocialTradingStore(m_Pile);
       m_CLRThreads = new ThreadSet(m_CLRStore);
       m_PileThreads = new ThreadSet(m_PileStore);
+
+
+
+
+      tbSegSizeMb.Text = "{0:n0}".Args(m_Pile.SegmentSize / (1024 * 1024));
+      tbMaxMemMb.Text = "{0:n0}".Args(m_Pile.MaxMemoryLimit / (1024 * 1024));
 
       tmrUI.Interval = TIMER_NORM_MS;
       tmrUI.Enabled = true;
@@ -98,9 +104,6 @@ namespace SocialTrading
       stbTotalSegments.Text = m_Pile.SegmentTotalCount.ToString("n0");
       lblRamAvailable.Text = "Available RAM: {0,12:n0} bytes".Args(m_Pile.MemoryCapacityBytes);
 
-      //-------------------------------------
-      tbSegSizeMb.Enabled = tbMaxMemMb.Enabled = m_Pile.Status == NFX.ServiceModel.ControlStatus.Inactive;
-      btnPurge.Enabled = btnCrawl.Enabled = m_Pile.Status == NFX.ServiceModel.ControlStatus.Active;
 
       //-----
       stbCLRObjectCount.Text = "{0:n}".Args(m_CLRStore.Count);
@@ -186,10 +189,6 @@ namespace SocialTrading
         x-=3;
         i--;
       }
-    }
-
-    private void lblPlotJitter_Paint(object sender, PaintEventArgs e)
-    {
     }
 
     private void chkSpeed_CheckedChanged(object sender, EventArgs e)
