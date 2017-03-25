@@ -38,6 +38,7 @@
       this.lblRamAvailable = new System.Windows.Forms.ToolStripStatusLabel();
       this.pnlCLR = new System.Windows.Forms.Panel();
       this.panel1 = new System.Windows.Forms.Panel();
+      this.lbCLRLog = new System.Windows.Forms.ListBox();
       this.stbCLRObjectCount = new System.Windows.Forms.TextBox();
       this.label7 = new System.Windows.Forms.Label();
       this.btnCLRPurge = new System.Windows.Forms.Button();
@@ -88,7 +89,6 @@
       this.pnlJitter = new System.Windows.Forms.Panel();
       this.pnlMain = new System.Windows.Forms.Panel();
       this.splitter1 = new System.Windows.Forms.Splitter();
-      this.lbCLRLog = new System.Windows.Forms.ListBox();
       this.pnlTop.SuspendLayout();
       this.statusStrip.SuspendLayout();
       this.pnlCLR.SuspendLayout();
@@ -195,6 +195,19 @@
       this.panel1.Name = "panel1";
       this.panel1.Size = new System.Drawing.Size(463, 254);
       this.panel1.TabIndex = 11;
+      // 
+      // lbCLRLog
+      // 
+      this.lbCLRLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.lbCLRLog.Font = new System.Drawing.Font("Roboto Condensed", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.lbCLRLog.FormattingEnabled = true;
+      this.lbCLRLog.ItemHeight = 16;
+      this.lbCLRLog.Location = new System.Drawing.Point(10, 48);
+      this.lbCLRLog.Name = "lbCLRLog";
+      this.lbCLRLog.Size = new System.Drawing.Size(362, 196);
+      this.lbCLRLog.TabIndex = 15;
       // 
       // stbCLRObjectCount
       // 
@@ -349,6 +362,8 @@
       // chkSpeed
       // 
       this.chkSpeed.AutoSize = true;
+      this.chkSpeed.Checked = true;
+      this.chkSpeed.CheckState = System.Windows.Forms.CheckState.Checked;
       this.chkSpeed.ForeColor = System.Drawing.Color.Silver;
       this.chkSpeed.Location = new System.Drawing.Point(191, 276);
       this.chkSpeed.Name = "chkSpeed";
@@ -670,8 +685,12 @@
       // 
       // tbMaxMemMb
       // 
+      this.tbMaxMemMb.BackColor = System.Drawing.Color.Gray;
+      this.tbMaxMemMb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+      this.tbMaxMemMb.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
       this.tbMaxMemMb.Location = new System.Drawing.Point(343, 29);
       this.tbMaxMemMb.Name = "tbMaxMemMb";
+      this.tbMaxMemMb.ReadOnly = true;
       this.tbMaxMemMb.Size = new System.Drawing.Size(49, 20);
       this.tbMaxMemMb.TabIndex = 7;
       this.tbMaxMemMb.Text = "0";
@@ -688,8 +707,12 @@
       // 
       // tbSegSizeMb
       // 
+      this.tbSegSizeMb.BackColor = System.Drawing.Color.Gray;
+      this.tbSegSizeMb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+      this.tbSegSizeMb.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
       this.tbSegSizeMb.Location = new System.Drawing.Point(201, 29);
       this.tbSegSizeMb.Name = "tbSegSizeMb";
+      this.tbSegSizeMb.ReadOnly = true;
       this.tbSegSizeMb.Size = new System.Drawing.Size(49, 20);
       this.tbSegSizeMb.TabIndex = 5;
       this.tbSegSizeMb.Text = "512";
@@ -753,19 +776,6 @@
       this.splitter1.Size = new System.Drawing.Size(6, 593);
       this.splitter1.TabIndex = 3;
       this.splitter1.TabStop = false;
-      // 
-      // lbCLRLog
-      // 
-      this.lbCLRLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.lbCLRLog.Font = new System.Drawing.Font("Roboto Condensed", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.lbCLRLog.FormattingEnabled = true;
-      this.lbCLRLog.ItemHeight = 16;
-      this.lbCLRLog.Location = new System.Drawing.Point(10, 48);
-      this.lbCLRLog.Name = "lbCLRLog";
-      this.lbCLRLog.Size = new System.Drawing.Size(362, 196);
-      this.lbCLRLog.TabIndex = 15;
       // 
       // MainForm
       // 
