@@ -41,11 +41,6 @@ namespace SocialTrading
     long Count { get; }
 
     /// <summary>
-    /// Add the trade to user object returning it, or null if user was not found
-    /// </summary>
-    User AcceptTrade(GDID gUser, User.Trade trade);
-
-    /// <summary>
     /// Deletes all
     /// </summary>
     void Purge();

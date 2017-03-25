@@ -44,22 +44,6 @@ namespace SocialTrading
 
     public long Count { get { return m_Data.Sum(d => { lock(d) return (long)d.Count; }); }}
 
-    public User AcceptTrade(GDID gUser, User.Trade trade)
-    {
-      User result;
-      var d = getBucket(gUser);
-      lock (d)
-      {
-        PilePointer pp;
-        if (!d.TryGetValue(gUser, out pp)) return null;
-        result = (User) m_Pile.Get(pp);
-        result.AddTrade(trade);
-        m_Pile.Delete(pp);
-        d[gUser] = m_Pile.Put(result);
-      }
-
-      return result;
-    }
 
     public User Get(GDID gUser)
     {
