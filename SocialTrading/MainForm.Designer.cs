@@ -29,6 +29,7 @@
     private void InitializeComponent()
     {
       this.components = new System.ComponentModel.Container();
+      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
       this.tmrUI = new System.Windows.Forms.Timer(this.components);
       this.pnlTop = new System.Windows.Forms.Panel();
       this.lbLog = new System.Windows.Forms.ListBox();
@@ -786,6 +787,7 @@
       this.Controls.Add(this.pnlJitter);
       this.Controls.Add(this.statusStrip);
       this.Controls.Add(this.pnlTop);
+      this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
       this.Name = "MainForm";
       this.Text = "Social Trading";
       this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
