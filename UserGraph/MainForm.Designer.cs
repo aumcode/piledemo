@@ -83,11 +83,13 @@
       this.label18 = new System.Windows.Forms.Label();
       this.textBox8 = new System.Windows.Forms.TextBox();
       this.label19 = new System.Windows.Forms.Label();
+      this.timeSeriesChart1 = new NFX.WinForms.Controls.ChartKit.Temporal.TimeSeriesChart();
       this.pnlStatus.SuspendLayout();
       this.pnlTop.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
       this.pnlMain.SuspendLayout();
       this.pnlControl.SuspendLayout();
+      this.pnlInfo.SuspendLayout();
       this.panel2.SuspendLayout();
       this.panel1.SuspendLayout();
       this.SuspendLayout();
@@ -124,21 +126,27 @@
       // 
       // btnGC
       // 
+      this.btnGC.BackColor = System.Drawing.Color.Purple;
+      this.btnGC.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
       this.btnGC.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.btnGC.ForeColor = System.Drawing.Color.Purple;
+      this.btnGC.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
       this.btnGC.Location = new System.Drawing.Point(12, 9);
       this.btnGC.Name = "btnGC";
       this.btnGC.Size = new System.Drawing.Size(75, 23);
       this.btnGC.TabIndex = 0;
       this.btnGC.Text = "Full GC";
-      this.btnGC.UseVisualStyleBackColor = true;
+      this.btnGC.UseVisualStyleBackColor = false;
+      this.btnGC.Click += new System.EventHandler(this.btnGC_Click);
       // 
       // cboBackend
       // 
+      this.cboBackend.BackColor = System.Drawing.Color.Silver;
+      this.cboBackend.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+      this.cboBackend.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
       this.cboBackend.FormattingEnabled = true;
       this.cboBackend.Items.AddRange(new object[] {
-            "CLR",
-            "NFX Pile"});
+            "NFX Pile",
+            "CLR Objects"});
       this.cboBackend.Location = new System.Drawing.Point(152, 11);
       this.cboBackend.Name = "cboBackend";
       this.cboBackend.Size = new System.Drawing.Size(89, 21);
@@ -157,25 +165,29 @@
       // 
       // btnStart
       // 
+      this.btnStart.BackColor = System.Drawing.Color.Green;
+      this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
       this.btnStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.btnStart.ForeColor = System.Drawing.Color.Green;
+      this.btnStart.ForeColor = System.Drawing.Color.LawnGreen;
       this.btnStart.Location = new System.Drawing.Point(511, 9);
       this.btnStart.Name = "btnStart";
       this.btnStart.Size = new System.Drawing.Size(75, 23);
       this.btnStart.TabIndex = 3;
       this.btnStart.Text = "Start";
-      this.btnStart.UseVisualStyleBackColor = true;
+      this.btnStart.UseVisualStyleBackColor = false;
       // 
       // btnStop
       // 
+      this.btnStop.BackColor = System.Drawing.Color.Maroon;
+      this.btnStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
       this.btnStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.btnStop.ForeColor = System.Drawing.Color.Maroon;
+      this.btnStop.ForeColor = System.Drawing.Color.Salmon;
       this.btnStop.Location = new System.Drawing.Point(592, 9);
       this.btnStop.Name = "btnStop";
       this.btnStop.Size = new System.Drawing.Size(75, 23);
       this.btnStop.TabIndex = 4;
       this.btnStop.Text = "Stop";
-      this.btnStop.UseVisualStyleBackColor = true;
+      this.btnStop.UseVisualStyleBackColor = false;
       // 
       // pnlJitter
       // 
@@ -228,6 +240,7 @@
       // pnlInfo
       // 
       this.pnlInfo.BackColor = System.Drawing.Color.Gray;
+      this.pnlInfo.Controls.Add(this.timeSeriesChart1);
       this.pnlInfo.Dock = System.Windows.Forms.DockStyle.Fill;
       this.pnlInfo.Location = new System.Drawing.Point(484, 0);
       this.pnlInfo.Name = "pnlInfo";
@@ -303,6 +316,7 @@
       // 
       // tbUsers
       // 
+      this.tbUsers.BackColor = System.Drawing.Color.Silver;
       this.tbUsers.Location = new System.Drawing.Point(289, 11);
       this.tbUsers.Name = "tbUsers";
       this.tbUsers.Size = new System.Drawing.Size(86, 20);
@@ -332,6 +346,7 @@
       // 
       // tbThreads
       // 
+      this.tbThreads.BackColor = System.Drawing.Color.Silver;
       this.tbThreads.Location = new System.Drawing.Point(439, 11);
       this.tbThreads.Name = "tbThreads";
       this.tbThreads.Size = new System.Drawing.Size(49, 20);
@@ -696,6 +711,30 @@
       this.label19.TabIndex = 0;
       this.label19.Text = "User Count";
       // 
+      // timeSeriesChart1
+      // 
+      this.timeSeriesChart1.AllowMultiLineTitle = false;
+      this.timeSeriesChart1.AutoScroll = true;
+      this.timeSeriesChart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+      this.timeSeriesChart1.HScrollPosition = 0;
+      this.timeSeriesChart1.ID = "";
+      this.timeSeriesChart1.Location = new System.Drawing.Point(6, 49);
+      this.timeSeriesChart1.MouseCursorMode = NFX.WinForms.Controls.ChartKit.Temporal.MouseCursorMode.Click;
+      this.timeSeriesChart1.Name = "timeSeriesChart1";
+      this.timeSeriesChart1.ReadOnly = false;
+      this.timeSeriesChart1.Series = null;
+      this.timeSeriesChart1.ShowTimeGaps = true;
+      this.timeSeriesChart1.Size = new System.Drawing.Size(614, 270);
+      this.timeSeriesChart1.TabIndex = 0;
+      this.timeSeriesChart1.Text = "timeSeriesChart1";
+      this.timeSeriesChart1.TimeLineTickSpace = 52;
+      this.timeSeriesChart1.UseLocalTime = false;
+      this.timeSeriesChart1.VRulerDefaultFormat = null;
+      this.timeSeriesChart1.VRulerFixedWidth = 0;
+      this.timeSeriesChart1.VRulerPosition = NFX.WinForms.Controls.ChartKit.VRulerPosition.Right;
+      this.timeSeriesChart1.Zoom = 1F;
+      this.timeSeriesChart1.ZoomStepPercent = 5;
+      // 
       // MainForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -719,6 +758,7 @@
       this.pnlMain.ResumeLayout(false);
       this.pnlControl.ResumeLayout(false);
       this.pnlControl.PerformLayout();
+      this.pnlInfo.ResumeLayout(false);
       this.panel2.ResumeLayout(false);
       this.panel2.PerformLayout();
       this.panel1.ResumeLayout(false);
@@ -783,6 +823,7 @@
     private System.Windows.Forms.Label label18;
     private System.Windows.Forms.TextBox textBox8;
     private System.Windows.Forms.Label label19;
+    private NFX.WinForms.Controls.ChartKit.Temporal.TimeSeriesChart timeSeriesChart1;
   }
 }
 

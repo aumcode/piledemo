@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,6 +45,8 @@ namespace UserGraph
 
       //tbSegSizeMb.Text = "{0:n0}".Args(m_Pile.SegmentSize / (1024 * 1024));
       //tbMaxMemMb.Text = "{0:n0}".Args(m_Pile.MaxMemoryLimit / (1024 * 1024));
+
+      cboBackend.SelectedIndex = 0;
 
       tmrUI.Interval = TIMER_NORM_MS;
       tmrUI.Enabled = true;
@@ -136,6 +139,14 @@ namespace UserGraph
       lbPileLog.Items.Insert(0, txt);
       while (lbPileLog.Items.Count > 100) lbPileLog.Items.RemoveAt(lbPileLog.Items.Count - 1);
 
+      var running = true;
+
+      btnStart.Enabled = !running;
+      btnStop.Enabled = running;
+      cboBackend.Enabled = !running;
+      tbUsers.Enabled = !running;
+      tbThreads.Enabled = !running;
+
     }
 
     private void pnlJitter_Paint(object sender, PaintEventArgs e)
@@ -159,6 +170,15 @@ namespace UserGraph
         x -= 3;
         i--;
       }
+    }
+
+    private void btnGC_Click(object sender, EventArgs e)
+    {
+      var was = GC.GetTotalMemory(false);
+      var w = Stopwatch.StartNew();
+      GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true);
+      GC.WaitForPendingFinalizers();
+      Text = "GC Freed {0:n0} bytes in {1:n0} ms".Args(was - GC.GetTotalMemory(true), w.ElapsedMilliseconds);
     }
   }
 }
