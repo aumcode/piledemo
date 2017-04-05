@@ -83,7 +83,7 @@
       this.label18 = new System.Windows.Forms.Label();
       this.textBox8 = new System.Windows.Forms.TextBox();
       this.label19 = new System.Windows.Forms.Label();
-      this.timeSeriesChart1 = new NFX.WinForms.Controls.ChartKit.Temporal.TimeSeriesChart();
+      this.chart = new NFX.WinForms.Controls.ChartKit.Temporal.TimeSeriesChart();
       this.pnlStatus.SuspendLayout();
       this.pnlTop.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -240,7 +240,7 @@
       // pnlInfo
       // 
       this.pnlInfo.BackColor = System.Drawing.Color.Gray;
-      this.pnlInfo.Controls.Add(this.timeSeriesChart1);
+      this.pnlInfo.Controls.Add(this.chart);
       this.pnlInfo.Dock = System.Windows.Forms.DockStyle.Fill;
       this.pnlInfo.Location = new System.Drawing.Point(484, 0);
       this.pnlInfo.Name = "pnlInfo";
@@ -711,29 +711,29 @@
       this.label19.TabIndex = 0;
       this.label19.Text = "User Count";
       // 
-      // timeSeriesChart1
+      // chart
       // 
-      this.timeSeriesChart1.AllowMultiLineTitle = false;
-      this.timeSeriesChart1.AutoScroll = true;
-      this.timeSeriesChart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-      this.timeSeriesChart1.HScrollPosition = 0;
-      this.timeSeriesChart1.ID = "";
-      this.timeSeriesChart1.Location = new System.Drawing.Point(6, 49);
-      this.timeSeriesChart1.MouseCursorMode = NFX.WinForms.Controls.ChartKit.Temporal.MouseCursorMode.Click;
-      this.timeSeriesChart1.Name = "timeSeriesChart1";
-      this.timeSeriesChart1.ReadOnly = false;
-      this.timeSeriesChart1.Series = null;
-      this.timeSeriesChart1.ShowTimeGaps = true;
-      this.timeSeriesChart1.Size = new System.Drawing.Size(614, 270);
-      this.timeSeriesChart1.TabIndex = 0;
-      this.timeSeriesChart1.Text = "timeSeriesChart1";
-      this.timeSeriesChart1.TimeLineTickSpace = 52;
-      this.timeSeriesChart1.UseLocalTime = false;
-      this.timeSeriesChart1.VRulerDefaultFormat = null;
-      this.timeSeriesChart1.VRulerFixedWidth = 0;
-      this.timeSeriesChart1.VRulerPosition = NFX.WinForms.Controls.ChartKit.VRulerPosition.Right;
-      this.timeSeriesChart1.Zoom = 1F;
-      this.timeSeriesChart1.ZoomStepPercent = 5;
+      this.chart.AllowMultiLineTitle = false;
+      this.chart.AutoScroll = true;
+      this.chart.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+      this.chart.HScrollPosition = 0;
+      this.chart.ID = "";
+      this.chart.Location = new System.Drawing.Point(3, 6);
+      this.chart.MouseCursorMode = NFX.WinForms.Controls.ChartKit.Temporal.MouseCursorMode.Click;
+      this.chart.Name = "chart";
+      this.chart.ReadOnly = false;
+      this.chart.Series = null;
+      this.chart.ShowTimeGaps = true;
+      this.chart.Size = new System.Drawing.Size(614, 270);
+      this.chart.TabIndex = 0;
+      this.chart.Text = "timeSeriesChart1";
+      this.chart.TimeLineTickSpace = 52;
+      this.chart.UseLocalTime = false;
+      this.chart.VRulerDefaultFormat = null;
+      this.chart.VRulerFixedWidth = 0;
+      this.chart.VRulerPosition = NFX.WinForms.Controls.ChartKit.VRulerPosition.Right;
+      this.chart.Zoom = 1F;
+      this.chart.ZoomStepPercent = 5;
       // 
       // MainForm
       // 
@@ -823,7 +823,7 @@
     private System.Windows.Forms.Label label18;
     private System.Windows.Forms.TextBox textBox8;
     private System.Windows.Forms.Label label19;
-    private NFX.WinForms.Controls.ChartKit.Temporal.TimeSeriesChart timeSeriesChart1;
+    private NFX.WinForms.Controls.ChartKit.Temporal.TimeSeriesChart chart;
   }
 }
 
