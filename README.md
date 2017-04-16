@@ -2,14 +2,14 @@
 piledemo
 
 ## TL;DR
-Pile is 100% .NET tative solution that turns pretty much any business.NET object reference into a `struct{int:int}`.
+Pile is 100% .NET native solution that turns pretty much any business.NET object reference into a `struct{int:int}`.
 Pile uses very fast serializer and allocator that uses `byte[]`.
 This way the GC stops seeing the "objects" and does not stall you process when you need to keep 100s of millions of objects.
 On a typical "Person" object Pile yields 1.5M writes/sec and 2+M read/sec speed on a 3Ghz i7 machine.
 
 ## Overview
 The purpose of this project is to demonstrate and test the speed and applicability of [NFX Object Pile](https://github.com/aumcode/nfx/blob/master/Source/NFX/ApplicationModel/Pile/IPile.cs#L102) objects.
-technology using some real-world business cases.
+technology using some real-world business cases. What may not be apparent, and is demonstrated by this project, is that **using serialization with managed-only allocator beats the native approach - both latency and throughput-wise**. This is because of GC stalls, no matter how eleborate GC gets, it really disrupts the high-load process execution consistency, whereas Pile yields stable 1M+ ops/sec performance which is guaranteed on 10M or 1Billion objects in RAM.
 
 ## Object Pile
 Pile is a large/big memory heap of objects native to the executing process, so if your 
@@ -19,10 +19,10 @@ objects allocated and promoted into GC Gen 2. NFX Pile uses intricate serializat
  that uses large `byte[]` buffers to hold data. NFX Pile is different from other similar solutions in approach to serialization
  which allows developers to store a wide variarty of CLR objects without a need to create special-purpose data structures for particular business domain.
 
-NFX Pile is 100% managed code, which makes it stable and easy to maintain. There is no special "unmanaged" treatmnet required
+NFX Pile is 100% managed code, which makes it stable and easy to maintain. There is no special "unmanaged" treatment required
 for objects that get stored in a Pile.
 
-The performance of the Pile beats the out-of-process storages because the required serialization is for the out-of-process storage
+The performance of the Pile beats the out-of-process storage solutions because the required serialization is for the out-of-process storage
 (i.e. Redis/memcache) is still there but Pile saves on 3-rd party network and library calls (which in turn, create extra tranistive instances and copies in drivers/connectors)
 
 As this demo clearly shows, it makes lots of sense to use large memory (i.e. tens/hudreds of gigabytes)
