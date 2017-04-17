@@ -13,14 +13,6 @@ namespace UserGraph
 
   public class User
   {
-    public struct FriendConnection
-    {
-      public long FriendID { get; set; }
-      public bool IsPublic { get; set; }
-      public float Bond { get; set; }
-      public DateTime CreateDate { get; set; }
-    }
-
     public User() { }
 
     public long     ID               { get; set; }
@@ -31,6 +23,26 @@ namespace UserGraph
     public UserSex  Sex              { get; set; }
     public string   Location         { get; set; }
   }
+
+  public struct FriendConnection
+  {
+    public long FriendID { get; set; }
+    public bool IsPublic { get; set; }
+    public float Bond { get; set; }
+    public DateTime CreateDate { get; set; }
+  }
+
+  public class Post
+  {
+    public long PostID { get; set; }
+    public long UserID { get; set; }
+    public DateTime CreateDate { get; set; }
+    public string Title { get; set; }
+    public string Text { get; set; }
+    public long Up   { get; set; }
+    public long Down { get; set; }
+  }
+
 
 
   public class Circles
