@@ -9,8 +9,6 @@ using NFX.DataAccess.Distributed;
 namespace UserGraph
 {
 
-  public enum UserSex { Unspecified=0, Male, Female }
-
   public class User
   {
     public User() { }
@@ -20,16 +18,8 @@ namespace UserGraph
     public DateTime RegistrationDate { get; set; }
     public DateTime LastLoginDate    { get; set; }
     public string   EMail            { get; set; }
-    public UserSex  Sex              { get; set; }
+    public bool     CanVote          { get; set; }
     public string   Location         { get; set; }
-  }
-
-  public struct FriendConnection
-  {
-    public long FriendID { get; set; }
-    public bool IsPublic { get; set; }
-    public float Bond { get; set; }
-    public DateTime CreateDate { get; set; }
   }
 
   public class Post
@@ -41,68 +31,48 @@ namespace UserGraph
     public string Text { get; set; }
     public long Up   { get; set; }
     public long Down { get; set; }
-  }
-
-
-
-  public class Circles
-  {
-    public class Connection
-    {
-      public User  User     { get; set; }
-      public int   Rank     { get; set; }
-      public bool  IsPublic { get; set; }
-      public float Bond     { get; set; }
-    }
-
-    public User User { get; set; }
-    public Connection[] Friends { get; set; }
+    public long[] MentionUserIDs { get; set; }
   }
 
 
   public interface IUserGraph
   {
-    /// <summary>
-    /// Returns the number of users
-    /// </summary>
     long UserCount { get; }
+    long PostCount { get; }
 
     /// <summary>
-    /// Returns the number of user connections
+    /// Add or update user, true if added
     /// </summary>
-    long ConnectionCount { get; }
-
+    bool PutUser(User user);
 
     /// <summary>
-    /// Adds user to graph, if exists with such id, replaces.
-    /// True if added new
+    /// Remove user by ID, true if found and removed
     /// </summary>
-    bool Add(User user);
+    bool RemoveUser(long userID);
 
     /// <summary>
-    /// Removes user returning true if found and removed, false otherwise
+    /// Add or replace post, true if added
     /// </summary>
-    bool Remove(long id);
+    bool PutPost(Post post);
 
     /// <summary>
-    /// Adds user friend returning true, or false if exists
+    /// Remove post by id
     /// </summary>
-    bool AddFriend(long user, long Friend, float bond, bool pub);
+    bool RemovePost(long postID);
 
     /// <summary>
-    /// Adds user friend returning true if was removed, or false if was not a friend
+    /// Vote foir post +/-
     /// </summary>
-    bool RemoveFriend(long user, long Friend);
-
-
-    /// <summary>
-    /// Returns user by ID or null if not found
-    /// </summary>
-    User Get(long id);
+    bool VotePost(long postID, int count);
 
     /// <summary>
-    /// Returns user friends
+    /// Gets postes authored by user
     /// </summary>
-    Circles GetCircles(long id, int ranks, float minBond, bool? pub);
+    IEnumerable<Post> GetUserPosts(long userID, out User user);
+
+    /// <summary>
+    /// Get posts that have the user mentioned
+    /// </summary>
+    IEnumerable<KeyValuePair<User, Post>> GetMentionedUserPosts(long userID);
   }
 }
