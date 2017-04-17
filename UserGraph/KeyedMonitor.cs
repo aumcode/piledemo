@@ -9,18 +9,26 @@ namespace NFX
   //todo Move into NFX
 
   /// <summary>
-  /// Provides Monitor services over named objects
+  /// Provides Monitor services over keyed objects
   /// </summary>
   public sealed class KeyedMonitor<TKey>
   {
-    public KeyedMonitor(IEqualityComparer<TKey> comparer = null)
+    private class _slot
     {
-      m_Buckets = new Dictionary<TKey, object>[0xff + 1];
-      for(var i=0; i< m_Buckets.Length; i++)
-        m_Buckets[i] =  comparer !=null ? new Dictionary<TKey, object>(comparer) : new Dictionary<TKey, object>();
+      public _slot() { RefCount = 1; }
+      public int RefCount;
     }
 
-    private Dictionary<TKey, object>[] m_Buckets;
+
+
+    public KeyedMonitor(IEqualityComparer<TKey> comparer = null)
+    {
+      m_Buckets = new Dictionary<TKey, _slot>[0xff + 1];
+      for(var i=0; i< m_Buckets.Length; i++)
+        m_Buckets[i] =  comparer !=null ? new Dictionary<TKey, _slot>(comparer) : new Dictionary<TKey, _slot>();
+    }
+
+    private Dictionary<TKey, _slot>[] m_Buckets;
 
 
     public void Synchronized(TKey key, Action action)
@@ -52,14 +60,16 @@ namespace NFX
     public void Enter(TKey key)
     {
       var bucket = getBucket(key);
-      object _lock;
+      _slot _lock;
       lock(bucket)
       {
         if (!bucket.TryGetValue(key, out _lock))
         {
-          _lock = new object();
-          bucket.Add(key, new object());
+          _lock = new _slot();
+          bucket.Add(key, _lock);
         }
+        else
+          _lock.RefCount++;
       }
 
       Monitor.Enter(_lock);
@@ -68,34 +78,39 @@ namespace NFX
     public bool TryEnter(TKey key, int msTimeout)
     {
       var bucket = getBucket(key);
-      object _lock;
+      _slot _lock;
       lock (bucket)
       {
         if (!bucket.TryGetValue(key, out _lock))
         {
-          _lock = new object();
-          bucket.Add(key, new object());
+          _lock = new _slot();
+          bucket.Add(key, _lock);
         }
+        else
+          _lock.RefCount++;
       }
 
+      //if lock was not taken - someone else will delete after Exit()
       return Monitor.TryEnter(_lock, msTimeout);
     }
 
     public bool Exit(TKey key)
     {
       var bucket = getBucket(key);
-      object _lock;
+      _slot _lock;
       lock (bucket)
       {
         if (!bucket.TryGetValue(key, out _lock)) return false;
         Monitor.Exit(_lock);
-        bucket.Remove(key);
+        _lock.RefCount--;
+        if (_lock.RefCount==0)
+          bucket.Remove(key);
       }
       return true;
     }
 
 
-    private Dictionary<TKey, object> getBucket(TKey key)
+    private Dictionary<TKey, _slot> getBucket(TKey key)
     {
       var hc = key.GetHashCode();
       return m_Buckets[hc & 0xff];
