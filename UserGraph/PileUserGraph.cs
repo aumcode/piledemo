@@ -33,6 +33,7 @@ namespace UserGraph
 
      private IPileImplementation m_Pile;
      private LocalCache m_Cache;
+     private KeyedMonitor<long> m_Locker = new KeyedMonitor<long>();
 
      private ICacheTable<long> TBL_USER { get { return m_Cache.GetOrCreateTable<long>("user"); } }
      private ICacheTable<long> TBL_POST { get { return m_Cache.GetOrCreateTable<long>("post"); } }
@@ -47,22 +48,25 @@ namespace UserGraph
 
     public bool PutUser(User user)
     {
-      return TBL_USER.Put(user.ID, user) == PutResult.Inserted;
+      return m_Locker.Synchronized(user.ID, () => TBL_USER.Put(user.ID, user) == PutResult.Inserted);
     }
 
     public bool RemoveUser(long userID)
     {
-      var deleted = TBL_USER.Remove(userID);
-      if (!deleted) return false;
+      return m_Locker.Synchronized(userID, () =>
+      {
+        var deleted = TBL_USER.Remove(userID);
+        if (!deleted) return false;
 
-      var posts = TBL_USERPOST.Get(userID) as long[];
-      if (posts == null) return true;
-      TBL_USERPOST.Remove(userID); //todo  Rewrite with table.RemoveReturning()
+        var posts = TBL_USERPOST.Get(userID) as long[];
+        if (posts == null) return true;
+        TBL_USERPOST.Remove(userID); //todo  Rewrite with table.RemoveReturning()
 
-      foreach (var postID in posts)
-        TBL_POST.Remove(postID);
+        foreach (var postID in posts)
+          TBL_POST.Remove(postID);
 
-      return true;
+        return true;
+      });
     }
 
 

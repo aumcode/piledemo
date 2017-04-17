@@ -73,7 +73,7 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="NamedMonitor.cs" />
+    <Compile Include="KeyedMonitor.cs" />
     <Compile Include="PileUserGraph.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
