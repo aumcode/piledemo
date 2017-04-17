@@ -75,7 +75,7 @@ namespace NFX
       Monitor.Enter(_lock);
     }
 
-    public bool TryEnter(TKey key, int msTimeout)
+    public bool TryEnter(TKey key)
     {
       var bucket = getBucket(key);
       _slot _lock;
@@ -84,14 +84,13 @@ namespace NFX
         if (!bucket.TryGetValue(key, out _lock))
         {
           _lock = new _slot();
+          Monitor.Enter(_lock);
           bucket.Add(key, _lock);
+          return true;
         }
-        else
-          _lock.RefCount++;
       }
 
-      //if lock was not taken - someone else will delete after Exit()
-      return Monitor.TryEnter(_lock, msTimeout);
+      return false;
     }
 
     public bool Exit(TKey key)
