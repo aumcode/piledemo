@@ -101,17 +101,17 @@ namespace UserGraph
 
     public bool VotePost(long postID, int count)
     {
-      throw new NotImplementedException();
+      var post = TBL_POST.Get(postID) as Post;
+      if (post == null) return false;
+      return m_Locker.Synchronized(post.UserID, () =>
+      {
+        if (count > 0) post.Up += count;
+        else post.Down -= count;
+        TBL_USERPOST.Put(post.PostID, post);
+        return true;
+      });
     }
 
-
-    public IEnumerable<KeyValuePair<User, Post>> GetMentionedUserPosts(long userID)
-    {
-      throw new NotImplementedException();
-      //var posts = TBL_USERPOST.Get(userID) as List<long>;
-      //if (posts == null) return Enumerable.Empty<KeyValuePair<User, Post>>();
-      //return posts.Select(pid => new KeyValuePair<User, Post>());
-    }
 
     public IEnumerable<Post> GetUserPosts(long userID, out User user)
     {

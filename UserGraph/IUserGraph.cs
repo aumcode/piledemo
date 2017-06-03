@@ -69,10 +69,5 @@ namespace UserGraph
     /// Gets postes authored by user
     /// </summary>
     IEnumerable<Post> GetUserPosts(long userID, out User user);
-
-    /// <summary>
-    /// Get posts that have the user mentioned
-    /// </summary>
-    IEnumerable<KeyValuePair<User, Post>> GetMentionedUserPosts(long userID);
   }
 }
