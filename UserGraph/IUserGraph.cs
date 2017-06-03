@@ -61,7 +61,7 @@ namespace UserGraph
     bool RemovePost(long postID);
 
     /// <summary>
-    /// Vote foir post +/-
+    /// Vote for post +/-
     /// </summary>
     bool VotePost(long postID, int count);
 

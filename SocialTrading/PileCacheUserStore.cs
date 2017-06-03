@@ -11,10 +11,10 @@ using NFX.DataAccess.Distributed;
 
 namespace SocialTrading
 {
-  public class PileCacheSocialTradingStore : DisposableObject, IUserStore
+  public class PileCacheUserStore : DisposableObject, IUserStore
   {
 
-    public PileCacheSocialTradingStore(IPileImplementation pile)
+    public PileCacheUserStore(IPileImplementation pile)
     {
       m_Pile = pile;
       m_Cache = new LocalCache(m_Pile, null, null);

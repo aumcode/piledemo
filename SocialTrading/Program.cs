@@ -14,6 +14,8 @@ namespace SocialTrading
     [STAThread]
     static void Main()
     {
+    //Uncomment for more fun - see if this helps GC
+    // System.Runtime.GCSettings.LatencyMode = System.Runtime.GCLatencyMode.SustainedLowLatency;
       Application.EnableVisualStyles();
       Application.SetCompatibleTextRenderingDefault(false);
       Application.Run(new MainForm());

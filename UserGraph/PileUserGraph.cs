@@ -74,6 +74,13 @@ namespace UserGraph
     public bool PutPost(Post post)
     {
       throw new NotImplementedException();
+      //m_Locker.Synchronized(post.UserID, () =>
+      //{
+      //  TBL_POST.Put(post.PostID, post);
+      //  TBL_USERPOST.GetOrPut( .Put(post.UserID, post.PostID);
+
+
+      //});
     }
 
     public bool RemovePost(long postID)

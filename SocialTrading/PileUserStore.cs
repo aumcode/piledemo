@@ -11,10 +11,10 @@ using NFX.DataAccess.Distributed;
 
 namespace SocialTrading
 {
-  public class PileSocialTradingStore : DisposableObject, IUserStore
+  public class PileUserStore : DisposableObject, IUserStore
   {
 
-    public PileSocialTradingStore(IPile pile)
+    public PileUserStore(IPile pile)
     {
       m_Pile = pile;
       Purge();

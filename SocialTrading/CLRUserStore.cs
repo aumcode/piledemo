@@ -10,10 +10,10 @@ using NFX.DataAccess.Distributed;
 
 namespace SocialTrading
 {
-  public class CLRSocialTradingStore : DisposableObject, IUserStore
+  public class CLRUserStore : DisposableObject, IUserStore
   {
 
-    public CLRSocialTradingStore()
+    public CLRUserStore()
     {
       Purge();
     }
