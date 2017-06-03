@@ -21,6 +21,9 @@ namespace UserGraph
       InitializeComponent();
     }
 
+    private IUserGraph m_Graph;
+    private ThreadSet m_Threads;
+
     private const int TIMER_NORM_MS = 250;
 
     private DefaultPile m_Pile;
@@ -28,19 +31,13 @@ namespace UserGraph
     private List<int> m_Jitters = new List<int>(128);
 
 
+
     private void MainForm_Load(object sender, EventArgs e)
     {
       m_Pile = new DefaultPile();
       m_Pile.Configure(null);
-      //// m_Pile.SegmentSize = 512 * 1024 * 1024;
-      //m_Pile.Start();
-      //m_CLRStore = new CLRSocialTradingStore();
-      //m_PileStore = new PileSocialTradingStore(m_Pile);
-      ////m_PileStore = new PileCacheSocialTradingStore(m_Pile);
-      //m_CLRThreads = new ThreadSet(m_CLRStore);
-      //m_PileThreads = new ThreadSet(m_PileStore);
-
-
+      m_Pile.SegmentSize = 512 * 1024 * 1024;
+      m_Pile.Start();
 
 
       //tbSegSizeMb.Text = "{0:n0}".Args(m_Pile.SegmentSize / (1024 * 1024));
@@ -55,10 +52,11 @@ namespace UserGraph
     private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
     {
       m_Pile.WaitForCompleteStop();
+      DisposableObject.DisposeAndNull(ref m_Threads);
+      DisposableObject.DisposeAndNull(ref m_Graph);
+
       //DisposableObject.DisposeAndNull(ref m_CLRStore);
-      //DisposableObject.DisposeAndNull(ref m_PileStore);
       //DisposableObject.DisposeAndNull(ref m_CLRThreads);
-      //DisposableObject.DisposeAndNull(ref m_PileThreads);
     }
 
     private void tmrUI_Tick(object sender, EventArgs e)
@@ -90,6 +88,9 @@ namespace UserGraph
       var utilized = m_Pile.UtilizedBytes;
       var overhead = m_Pile.OverheadBytes;
 
+
+
+
       stbMemBytes.Text = m_Pile.AllocatedMemoryBytes.ToString("n0");
       stbObjectCount.Text = count.ToString("n0");
       stbOverheadBytes.Text = overhead.ToString("n0");
@@ -101,10 +102,24 @@ namespace UserGraph
       lblRamAvailable.Text = "Available RAM: {0,12:n0} bytes".Args(m_Pile.MemoryCapacityBytes);
 
 
-      //m_PileThreads.Set(tbPileThreads.Text.AsInt(0),
-      //                       sbPileReads.Value,
-      //                       sbPileWrites.Value,
-      //                       sbPileDeletes.Value);
+      var running = m_Threads != null;
+      if (running)
+      {
+        m_Threads.Set(tbThreads.Text.AsInt(0),
+                        sbUserCount.Value,
+                        sbPostRead.Value,
+                        sbPostWrite.Value,
+                        sbPostVote.Value,
+                        sbPostDelete.Value);
+
+        stbUserCount.Text = "{0:n0}".Args(m_Graph.UserCount);
+        stbPostCount.Text = "{0:n0}".Args(m_Graph.PostCount);
+      }
+      else
+      {
+        stbUserCount.Text = "0";
+        stbPostCount.Text = "0";
+      }
       //--------------------
 
       //while (true)
@@ -139,14 +154,10 @@ namespace UserGraph
       lbPileLog.Items.Insert(0, txt);
       while (lbPileLog.Items.Count > 100) lbPileLog.Items.RemoveAt(lbPileLog.Items.Count - 1);
 
-      var running = true;
 
       btnStart.Enabled = !running;
       btnStop.Enabled = running;
       cboBackend.Enabled = !running;
-      tbUsers.Enabled = !running;
-      tbThreads.Enabled = !running;
-
     }
 
     private void pnlJitter_Paint(object sender, PaintEventArgs e)
@@ -180,5 +191,18 @@ namespace UserGraph
       GC.WaitForPendingFinalizers();
       Text = "GC Freed {0:n0} bytes in {1:n0} ms".Args(was - GC.GetTotalMemory(true), w.ElapsedMilliseconds);
     }
+
+    private void btnStart_Click(object sender, EventArgs e)
+    {
+      m_Graph = new PileUserGraph(m_Pile);
+      m_Threads = new ThreadSet(m_Graph);
+    }
+
+    private void btnStop_Click(object sender, EventArgs e)
+    {
+      DisposableObject.DisposeAndNull(ref m_Threads);
+      DisposableObject.DisposeAndNull(ref m_Graph);
+    }
+
   }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
 using NFX;
 using NFX.ApplicationModel.Pile;
@@ -17,6 +17,7 @@ namespace UserGraph
       m_Pile = pile;
       m_Cache = new LocalCache();
       m_Cache.Pile = pile;
+      m_Cache.DefaultTableOptions = new TableOptions("*");
       m_Cache.DefaultTableOptions.CollisionMode = CollisionMode.Durable;//keep all entries (slower, uses chaining)
       m_Cache.DefaultTableOptions.DefaultMaxAgeSec = 0;//never expire items
       m_Cache.Start();
@@ -40,11 +41,28 @@ namespace UserGraph
 
      private ICacheTable<long> TBL_USERPOST { get { return m_Cache.GetOrCreateTable<long>("user-post"); } }
 
+     private long m_UserIDSeed;
+     private long m_PostIDSeed;
+
     #endregion
 
 
     public long UserCount { get { return TBL_USER.Count; } }
     public long PostCount { get { return TBL_POST.Count; } }
+
+    public long UserIDRange { get { return m_UserIDSeed; } }
+    public long PostIDRange { get { return m_PostIDSeed; } }
+
+    public long NewUserID()
+    {
+      return Interlocked.Increment(ref m_UserIDSeed);
+    }
+
+    public long NewPostID()
+    {
+      return Interlocked.Increment(ref m_PostIDSeed);
+    }
+
 
     public bool PutUser(User user)
     {
@@ -58,7 +76,7 @@ namespace UserGraph
         var deleted = TBL_USER.Remove(userID);
         if (!deleted) return false;
 
-        var posts = TBL_USERPOST.Get(userID) as long[];
+        var posts = TBL_USERPOST.Get(userID) as List<long>;
         if (posts == null) return true;
         TBL_USERPOST.Remove(userID); //todo  Rewrite with table.RemoveReturning()
 
@@ -81,8 +99,10 @@ namespace UserGraph
         if (uposts == null) uposts = new List<long>();
         if (uposts.Any(id => id == post.PostID)) return false;
 
+        if (uposts.Count > 25) uposts.RemoveAt(0);
         uposts.Add(post.PostID);
-        TBL_USERPOST.Put(post.UserID, uposts);
+        var pr = TBL_USERPOST.Put(post.UserID, uposts);
+
         return true;
       });
     }

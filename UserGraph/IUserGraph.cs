@@ -35,10 +35,19 @@ namespace UserGraph
   }
 
 
-  public interface IUserGraph
+  public interface IUserGraph : IDisposable
   {
     long UserCount { get; }
     long PostCount { get; }
+
+
+    long UserIDRange { get; }
+    long PostIDRange { get; }
+
+    long NewUserID();
+    long NewPostID();
+
+
 
     /// <summary>
     /// Add or update user, true if added

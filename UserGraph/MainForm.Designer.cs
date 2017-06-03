@@ -37,8 +37,6 @@
       this.label5 = new System.Windows.Forms.Label();
       this.tbThreads = new System.Windows.Forms.TextBox();
       this.label3 = new System.Windows.Forms.Label();
-      this.label2 = new System.Windows.Forms.Label();
-      this.tbUsers = new System.Windows.Forms.TextBox();
       this.btnStop = new System.Windows.Forms.Button();
       this.btnStart = new System.Windows.Forms.Button();
       this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -50,6 +48,15 @@
       this.chart = new NFX.WinForms.Controls.ChartKit.Temporal.TimeSeriesChart();
       this.splitter1 = new System.Windows.Forms.Splitter();
       this.pnlControl = new System.Windows.Forms.Panel();
+      this.label21 = new System.Windows.Forms.Label();
+      this.label20 = new System.Windows.Forms.Label();
+      this.sbPostDelete = new System.Windows.Forms.HScrollBar();
+      this.label16 = new System.Windows.Forms.Label();
+      this.sbPostVote = new System.Windows.Forms.HScrollBar();
+      this.label7 = new System.Windows.Forms.Label();
+      this.sbPostWrite = new System.Windows.Forms.HScrollBar();
+      this.label1 = new System.Windows.Forms.Label();
+      this.sbPostRead = new System.Windows.Forms.HScrollBar();
       this.panel1 = new System.Windows.Forms.Panel();
       this.label4 = new System.Windows.Forms.Label();
       this.label6 = new System.Windows.Forms.Label();
@@ -57,7 +64,7 @@
       this.label17 = new System.Windows.Forms.Label();
       this.textBox7 = new System.Windows.Forms.TextBox();
       this.label18 = new System.Windows.Forms.Label();
-      this.textBox8 = new System.Windows.Forms.TextBox();
+      this.stbUserCount = new System.Windows.Forms.TextBox();
       this.label19 = new System.Windows.Forms.Label();
       this.panel2 = new System.Windows.Forms.Panel();
       this.stbTotalSegments = new System.Windows.Forms.TextBox();
@@ -76,14 +83,12 @@
       this.label9 = new System.Windows.Forms.Label();
       this.stbObjectCount = new System.Windows.Forms.TextBox();
       this.label8 = new System.Windows.Forms.Label();
-      this.lblPileDeletes = new System.Windows.Forms.Label();
       this.lbPileLog = new System.Windows.Forms.ListBox();
-      this.sbPileDeletes = new System.Windows.Forms.HScrollBar();
-      this.lblPileWrites = new System.Windows.Forms.Label();
       this.lblPileReads = new System.Windows.Forms.Label();
-      this.sbPileWrites = new System.Windows.Forms.HScrollBar();
-      this.sbPileReads = new System.Windows.Forms.HScrollBar();
+      this.sbUserCount = new System.Windows.Forms.HScrollBar();
       this.tmrUI = new System.Windows.Forms.Timer(this.components);
+      this.stbPostCount = new System.Windows.Forms.TextBox();
+      this.label2 = new System.Windows.Forms.Label();
       this.pnlStatus.SuspendLayout();
       this.pnlTop.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -123,8 +128,6 @@
       this.pnlTop.Controls.Add(this.label5);
       this.pnlTop.Controls.Add(this.tbThreads);
       this.pnlTop.Controls.Add(this.label3);
-      this.pnlTop.Controls.Add(this.label2);
-      this.pnlTop.Controls.Add(this.tbUsers);
       this.pnlTop.Controls.Add(this.btnStop);
       this.pnlTop.Controls.Add(this.btnStart);
       this.pnlTop.Controls.Add(this.pictureBox1);
@@ -140,7 +143,7 @@
       // 
       this.label5.AutoSize = true;
       this.label5.ForeColor = System.Drawing.Color.Silver;
-      this.label5.Location = new System.Drawing.Point(387, 14);
+      this.label5.Location = new System.Drawing.Point(261, 14);
       this.label5.Name = "label5";
       this.label5.Size = new System.Drawing.Size(46, 13);
       this.label5.TabIndex = 30;
@@ -149,11 +152,11 @@
       // tbThreads
       // 
       this.tbThreads.BackColor = System.Drawing.Color.Silver;
-      this.tbThreads.Location = new System.Drawing.Point(439, 11);
+      this.tbThreads.Location = new System.Drawing.Point(313, 11);
       this.tbThreads.Name = "tbThreads";
       this.tbThreads.Size = new System.Drawing.Size(49, 20);
       this.tbThreads.TabIndex = 29;
-      this.tbThreads.Text = "0";
+      this.tbThreads.Text = "6";
       // 
       // label3
       // 
@@ -165,38 +168,19 @@
       this.label3.TabIndex = 28;
       this.label3.Text = "Backend";
       // 
-      // label2
-      // 
-      this.label2.AutoSize = true;
-      this.label2.ForeColor = System.Drawing.Color.Silver;
-      this.label2.Location = new System.Drawing.Point(252, 14);
-      this.label2.Name = "label2";
-      this.label2.Size = new System.Drawing.Size(34, 13);
-      this.label2.TabIndex = 27;
-      this.label2.Text = "Users";
-      // 
-      // tbUsers
-      // 
-      this.tbUsers.BackColor = System.Drawing.Color.Silver;
-      this.tbUsers.Location = new System.Drawing.Point(289, 11);
-      this.tbUsers.Name = "tbUsers";
-      this.tbUsers.Size = new System.Drawing.Size(86, 20);
-      this.tbUsers.TabIndex = 26;
-      this.tbUsers.Text = "1,000,000";
-      this.tbUsers.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-      // 
       // btnStop
       // 
       this.btnStop.BackColor = System.Drawing.Color.Maroon;
       this.btnStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
       this.btnStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
       this.btnStop.ForeColor = System.Drawing.Color.Salmon;
-      this.btnStop.Location = new System.Drawing.Point(592, 9);
+      this.btnStop.Location = new System.Drawing.Point(460, 9);
       this.btnStop.Name = "btnStop";
       this.btnStop.Size = new System.Drawing.Size(75, 23);
       this.btnStop.TabIndex = 4;
       this.btnStop.Text = "Stop";
       this.btnStop.UseVisualStyleBackColor = false;
+      this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
       // 
       // btnStart
       // 
@@ -204,12 +188,13 @@
       this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
       this.btnStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
       this.btnStart.ForeColor = System.Drawing.Color.LawnGreen;
-      this.btnStart.Location = new System.Drawing.Point(511, 9);
+      this.btnStart.Location = new System.Drawing.Point(379, 9);
       this.btnStart.Name = "btnStart";
       this.btnStart.Size = new System.Drawing.Size(75, 23);
       this.btnStart.TabIndex = 3;
       this.btnStart.Text = "Start";
       this.btnStart.UseVisualStyleBackColor = false;
+      this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
       // 
       // pictureBox1
       // 
@@ -317,31 +302,131 @@
       // pnlControl
       // 
       this.pnlControl.BackColor = System.Drawing.Color.Gray;
+      this.pnlControl.Controls.Add(this.label21);
+      this.pnlControl.Controls.Add(this.label20);
+      this.pnlControl.Controls.Add(this.sbPostDelete);
+      this.pnlControl.Controls.Add(this.label16);
+      this.pnlControl.Controls.Add(this.sbPostVote);
+      this.pnlControl.Controls.Add(this.label7);
+      this.pnlControl.Controls.Add(this.sbPostWrite);
+      this.pnlControl.Controls.Add(this.label1);
+      this.pnlControl.Controls.Add(this.sbPostRead);
       this.pnlControl.Controls.Add(this.panel1);
       this.pnlControl.Controls.Add(this.panel2);
-      this.pnlControl.Controls.Add(this.lblPileDeletes);
       this.pnlControl.Controls.Add(this.lbPileLog);
-      this.pnlControl.Controls.Add(this.sbPileDeletes);
-      this.pnlControl.Controls.Add(this.lblPileWrites);
       this.pnlControl.Controls.Add(this.lblPileReads);
-      this.pnlControl.Controls.Add(this.sbPileWrites);
-      this.pnlControl.Controls.Add(this.sbPileReads);
+      this.pnlControl.Controls.Add(this.sbUserCount);
       this.pnlControl.Dock = System.Windows.Forms.DockStyle.Left;
       this.pnlControl.Location = new System.Drawing.Point(0, 0);
       this.pnlControl.Name = "pnlControl";
       this.pnlControl.Size = new System.Drawing.Size(478, 639);
       this.pnlControl.TabIndex = 0;
       // 
+      // label21
+      // 
+      this.label21.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.label21.AutoSize = true;
+      this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.label21.ForeColor = System.Drawing.Color.Silver;
+      this.label21.Location = new System.Drawing.Point(241, 39);
+      this.label21.Name = "label21";
+      this.label21.Size = new System.Drawing.Size(47, 16);
+      this.label21.TabIndex = 32;
+      this.label21.Text = "Posts";
+      // 
+      // label20
+      // 
+      this.label20.AutoSize = true;
+      this.label20.ForeColor = System.Drawing.Color.Silver;
+      this.label20.Location = new System.Drawing.Point(1, 146);
+      this.label20.Name = "label20";
+      this.label20.Size = new System.Drawing.Size(38, 13);
+      this.label20.TabIndex = 31;
+      this.label20.Text = "Delete";
+      // 
+      // sbPostDelete
+      // 
+      this.sbPostDelete.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.sbPostDelete.Location = new System.Drawing.Point(61, 143);
+      this.sbPostDelete.Maximum = 1000;
+      this.sbPostDelete.Name = "sbPostDelete";
+      this.sbPostDelete.Size = new System.Drawing.Size(407, 22);
+      this.sbPostDelete.TabIndex = 30;
+      // 
+      // label16
+      // 
+      this.label16.AutoSize = true;
+      this.label16.ForeColor = System.Drawing.Color.Silver;
+      this.label16.Location = new System.Drawing.Point(1, 119);
+      this.label16.Name = "label16";
+      this.label16.Size = new System.Drawing.Size(29, 13);
+      this.label16.TabIndex = 29;
+      this.label16.Text = "Vote";
+      // 
+      // sbPostVote
+      // 
+      this.sbPostVote.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.sbPostVote.Location = new System.Drawing.Point(61, 116);
+      this.sbPostVote.Maximum = 1000;
+      this.sbPostVote.Name = "sbPostVote";
+      this.sbPostVote.Size = new System.Drawing.Size(407, 22);
+      this.sbPostVote.TabIndex = 28;
+      // 
+      // label7
+      // 
+      this.label7.AutoSize = true;
+      this.label7.ForeColor = System.Drawing.Color.Silver;
+      this.label7.Location = new System.Drawing.Point(1, 92);
+      this.label7.Name = "label7";
+      this.label7.Size = new System.Drawing.Size(32, 13);
+      this.label7.TabIndex = 27;
+      this.label7.Text = "Write";
+      // 
+      // sbPostWrite
+      // 
+      this.sbPostWrite.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.sbPostWrite.Location = new System.Drawing.Point(61, 89);
+      this.sbPostWrite.Maximum = 1000;
+      this.sbPostWrite.Name = "sbPostWrite";
+      this.sbPostWrite.Size = new System.Drawing.Size(407, 22);
+      this.sbPostWrite.TabIndex = 26;
+      // 
+      // label1
+      // 
+      this.label1.AutoSize = true;
+      this.label1.ForeColor = System.Drawing.Color.Silver;
+      this.label1.Location = new System.Drawing.Point(1, 65);
+      this.label1.Name = "label1";
+      this.label1.Size = new System.Drawing.Size(33, 13);
+      this.label1.TabIndex = 25;
+      this.label1.Text = "Read";
+      // 
+      // sbPostRead
+      // 
+      this.sbPostRead.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.sbPostRead.Location = new System.Drawing.Point(61, 62);
+      this.sbPostRead.Maximum = 1000;
+      this.sbPostRead.Name = "sbPostRead";
+      this.sbPostRead.Size = new System.Drawing.Size(407, 22);
+      this.sbPostRead.TabIndex = 24;
+      // 
       // panel1
       // 
       this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+      this.panel1.Controls.Add(this.stbPostCount);
+      this.panel1.Controls.Add(this.label2);
       this.panel1.Controls.Add(this.label4);
       this.panel1.Controls.Add(this.label6);
       this.panel1.Controls.Add(this.textBox6);
       this.panel1.Controls.Add(this.label17);
       this.panel1.Controls.Add(this.textBox7);
       this.panel1.Controls.Add(this.label18);
-      this.panel1.Controls.Add(this.textBox8);
+      this.panel1.Controls.Add(this.stbUserCount);
       this.panel1.Controls.Add(this.label19);
       this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
       this.panel1.Location = new System.Drawing.Point(0, 415);
@@ -417,26 +502,26 @@
       this.label18.TabIndex = 2;
       this.label18.Text = "Queries / sec";
       // 
-      // textBox8
+      // stbUserCount
       // 
-      this.textBox8.BackColor = System.Drawing.Color.Black;
-      this.textBox8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-      this.textBox8.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.textBox8.ForeColor = System.Drawing.Color.Lime;
-      this.textBox8.Location = new System.Drawing.Point(17, 37);
-      this.textBox8.Name = "textBox8";
-      this.textBox8.ReadOnly = true;
-      this.textBox8.Size = new System.Drawing.Size(146, 24);
-      this.textBox8.TabIndex = 1;
-      this.textBox8.Text = "0";
-      this.textBox8.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+      this.stbUserCount.BackColor = System.Drawing.Color.Black;
+      this.stbUserCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+      this.stbUserCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.stbUserCount.ForeColor = System.Drawing.Color.Lime;
+      this.stbUserCount.Location = new System.Drawing.Point(17, 22);
+      this.stbUserCount.Name = "stbUserCount";
+      this.stbUserCount.ReadOnly = true;
+      this.stbUserCount.Size = new System.Drawing.Size(146, 24);
+      this.stbUserCount.TabIndex = 1;
+      this.stbUserCount.Text = "0";
+      this.stbUserCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
       // 
       // label19
       // 
       this.label19.AutoSize = true;
       this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
       this.label19.ForeColor = System.Drawing.Color.White;
-      this.label19.Location = new System.Drawing.Point(14, 17);
+      this.label19.Location = new System.Drawing.Point(14, 7);
       this.label19.Name = "label19";
       this.label19.Size = new System.Drawing.Size(70, 13);
       this.label19.TabIndex = 0;
@@ -660,16 +745,6 @@
       this.label8.TabIndex = 0;
       this.label8.Text = "Object Count";
       // 
-      // lblPileDeletes
-      // 
-      this.lblPileDeletes.AutoSize = true;
-      this.lblPileDeletes.ForeColor = System.Drawing.Color.Silver;
-      this.lblPileDeletes.Location = new System.Drawing.Point(3, 88);
-      this.lblPileDeletes.Name = "lblPileDeletes";
-      this.lblPileDeletes.Size = new System.Drawing.Size(43, 13);
-      this.lblPileDeletes.TabIndex = 21;
-      this.lblPileDeletes.Text = "Deletes";
-      // 
       // lbPileLog
       // 
       this.lbPileLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -678,62 +753,60 @@
       this.lbPileLog.Font = new System.Drawing.Font("Roboto Condensed", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
       this.lbPileLog.FormattingEnabled = true;
       this.lbPileLog.ItemHeight = 16;
-      this.lbPileLog.Location = new System.Drawing.Point(12, 133);
+      this.lbPileLog.Location = new System.Drawing.Point(12, 181);
       this.lbPileLog.Name = "lbPileLog";
-      this.lbPileLog.Size = new System.Drawing.Size(454, 276);
+      this.lbPileLog.Size = new System.Drawing.Size(454, 228);
       this.lbPileLog.TabIndex = 14;
-      // 
-      // sbPileDeletes
-      // 
-      this.sbPileDeletes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.sbPileDeletes.Location = new System.Drawing.Point(48, 87);
-      this.sbPileDeletes.Name = "sbPileDeletes";
-      this.sbPileDeletes.Size = new System.Drawing.Size(407, 22);
-      this.sbPileDeletes.TabIndex = 20;
-      // 
-      // lblPileWrites
-      // 
-      this.lblPileWrites.AutoSize = true;
-      this.lblPileWrites.ForeColor = System.Drawing.Color.Silver;
-      this.lblPileWrites.Location = new System.Drawing.Point(4, 52);
-      this.lblPileWrites.Name = "lblPileWrites";
-      this.lblPileWrites.Size = new System.Drawing.Size(37, 13);
-      this.lblPileWrites.TabIndex = 19;
-      this.lblPileWrites.Text = "Writes";
       // 
       // lblPileReads
       // 
       this.lblPileReads.AutoSize = true;
       this.lblPileReads.ForeColor = System.Drawing.Color.Silver;
-      this.lblPileReads.Location = new System.Drawing.Point(4, 14);
+      this.lblPileReads.Location = new System.Drawing.Point(1, 12);
       this.lblPileReads.Name = "lblPileReads";
-      this.lblPileReads.Size = new System.Drawing.Size(38, 13);
+      this.lblPileReads.Size = new System.Drawing.Size(34, 13);
       this.lblPileReads.TabIndex = 18;
-      this.lblPileReads.Text = "Reads";
+      this.lblPileReads.Text = "Users";
       // 
-      // sbPileWrites
+      // sbUserCount
       // 
-      this.sbPileWrites.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+      this.sbUserCount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.sbPileWrites.Location = new System.Drawing.Point(48, 49);
-      this.sbPileWrites.Name = "sbPileWrites";
-      this.sbPileWrites.Size = new System.Drawing.Size(407, 22);
-      this.sbPileWrites.TabIndex = 17;
-      // 
-      // sbPileReads
-      // 
-      this.sbPileReads.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.sbPileReads.Location = new System.Drawing.Point(48, 11);
-      this.sbPileReads.Name = "sbPileReads";
-      this.sbPileReads.Size = new System.Drawing.Size(407, 22);
-      this.sbPileReads.TabIndex = 16;
+      this.sbUserCount.Location = new System.Drawing.Point(61, 9);
+      this.sbUserCount.Maximum = 25000000;
+      this.sbUserCount.Name = "sbUserCount";
+      this.sbUserCount.Size = new System.Drawing.Size(407, 22);
+      this.sbUserCount.TabIndex = 16;
       // 
       // tmrUI
       // 
       this.tmrUI.Interval = 150;
       this.tmrUI.Tick += new System.EventHandler(this.tmrUI_Tick);
+      // 
+      // stbPostCount
+      // 
+      this.stbPostCount.BackColor = System.Drawing.Color.Black;
+      this.stbPostCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+      this.stbPostCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.stbPostCount.ForeColor = System.Drawing.Color.Lime;
+      this.stbPostCount.Location = new System.Drawing.Point(17, 64);
+      this.stbPostCount.Name = "stbPostCount";
+      this.stbPostCount.ReadOnly = true;
+      this.stbPostCount.Size = new System.Drawing.Size(146, 24);
+      this.stbPostCount.TabIndex = 14;
+      this.stbPostCount.Text = "0";
+      this.stbPostCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+      // 
+      // label2
+      // 
+      this.label2.AutoSize = true;
+      this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.label2.ForeColor = System.Drawing.Color.White;
+      this.label2.Location = new System.Drawing.Point(14, 49);
+      this.label2.Name = "label2";
+      this.label2.Size = new System.Drawing.Size(69, 13);
+      this.label2.TabIndex = 13;
+      this.label2.Text = "Post Count";
       // 
       // MainForm
       // 
@@ -782,17 +855,11 @@
     private System.Windows.Forms.Panel pnlInfo;
     private System.Windows.Forms.Splitter splitter1;
     private System.Windows.Forms.Panel pnlControl;
-    private System.Windows.Forms.Label lblPileDeletes;
-    private System.Windows.Forms.HScrollBar sbPileDeletes;
-    private System.Windows.Forms.Label lblPileWrites;
     private System.Windows.Forms.Label lblPileReads;
-    private System.Windows.Forms.HScrollBar sbPileWrites;
-    private System.Windows.Forms.HScrollBar sbPileReads;
+    private System.Windows.Forms.HScrollBar sbUserCount;
     private System.Windows.Forms.Label label5;
     private System.Windows.Forms.TextBox tbThreads;
     private System.Windows.Forms.Label label3;
-    private System.Windows.Forms.Label label2;
-    private System.Windows.Forms.TextBox tbUsers;
     private System.Windows.Forms.ToolStripStatusLabel lblJitter;
     private System.Windows.Forms.ToolStripStatusLabel lblRamAvailable;
     private System.Windows.Forms.Timer tmrUI;
@@ -821,9 +888,20 @@
     private System.Windows.Forms.Label label17;
     private System.Windows.Forms.TextBox textBox7;
     private System.Windows.Forms.Label label18;
-    private System.Windows.Forms.TextBox textBox8;
+    private System.Windows.Forms.TextBox stbUserCount;
     private System.Windows.Forms.Label label19;
     private NFX.WinForms.Controls.ChartKit.Temporal.TimeSeriesChart chart;
+    private System.Windows.Forms.Label label21;
+    private System.Windows.Forms.Label label20;
+    private System.Windows.Forms.HScrollBar sbPostDelete;
+    private System.Windows.Forms.Label label16;
+    private System.Windows.Forms.HScrollBar sbPostVote;
+    private System.Windows.Forms.Label label7;
+    private System.Windows.Forms.HScrollBar sbPostWrite;
+    private System.Windows.Forms.Label label1;
+    private System.Windows.Forms.HScrollBar sbPostRead;
+    private System.Windows.Forms.TextBox stbPostCount;
+    private System.Windows.Forms.Label label2;
   }
 }
 

@@ -16,9 +16,9 @@ namespace UserGraph
     {
       MessageBox.Show("This demo is under construction. Use another demo in solution");
 
-      //Application.EnableVisualStyles();
-      //Application.SetCompatibleTextRenderingDefault(false);
-      //Application.Run(new MainForm());
+    //  Application.EnableVisualStyles();
+    //  Application.SetCompatibleTextRenderingDefault(false);
+    //  Application.Run(new MainForm());
     }
   }
 }
