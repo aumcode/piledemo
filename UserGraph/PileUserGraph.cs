@@ -73,19 +73,30 @@ namespace UserGraph
 
     public bool PutPost(Post post)
     {
-      throw new NotImplementedException();
-      //m_Locker.Synchronized(post.UserID, () =>
-      //{
-      //  TBL_POST.Put(post.PostID, post);
-      //  TBL_USERPOST.GetOrPut( .Put(post.UserID, post.PostID);
+      return m_Locker.Synchronized(post.UserID, () =>
+      {
+        TBL_POST.Put(post.PostID, post);
 
+        var uposts = TBL_USERPOST.Get(post.UserID) as List<long>;
+        if (uposts == null) uposts = new List<long>();
+        if (uposts.Any(id => id == post.PostID)) return false;
 
-      //});
+        uposts.Add(post.PostID);
+        TBL_USERPOST.Put(post.UserID, uposts);
+        return true;
+      });
     }
 
     public bool RemovePost(long postID)
     {
-      throw new NotImplementedException();
+      var post = TBL_POST.Get(postID) as Post;
+      if (post == null) return false;
+      return m_Locker.Synchronized(post.UserID, () =>
+      {
+        var result = TBL_POST.Remove(postID);
+        TBL_USERPOST.Remove(post.UserID);
+        return result;
+      });
     }
 
     public bool VotePost(long postID, int count)
@@ -97,11 +108,21 @@ namespace UserGraph
     public IEnumerable<KeyValuePair<User, Post>> GetMentionedUserPosts(long userID)
     {
       throw new NotImplementedException();
+      //var posts = TBL_USERPOST.Get(userID) as List<long>;
+      //if (posts == null) return Enumerable.Empty<KeyValuePair<User, Post>>();
+      //return posts.Select(pid => new KeyValuePair<User, Post>());
     }
 
     public IEnumerable<Post> GetUserPosts(long userID, out User user)
     {
-      throw new NotImplementedException();
+      user = TBL_USER.Get(userID) as User;
+      if (user == null) return Enumerable.Empty<Post>();
+      return m_Locker.Synchronized(userID, () =>
+      {
+        var posts = TBL_USERPOST.Get(userID) as List<long>;
+        if (posts == null) return Enumerable.Empty<Post>();
+        return posts.Select(pid => TBL_POST.Get(pid) as Post).Where( p => p!=null);
+      });
     }
 
 
