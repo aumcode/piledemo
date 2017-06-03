@@ -14,9 +14,11 @@ namespace UserGraph
     [STAThread]
     static void Main()
     {
-      Application.EnableVisualStyles();
-      Application.SetCompatibleTextRenderingDefault(false);
-      Application.Run(new MainForm());
+      MessageBox.Show("This demo is under construction. Use another demo in solution");
+
+      //Application.EnableVisualStyles();
+      //Application.SetCompatibleTextRenderingDefault(false);
+      //Application.Run(new MainForm());
     }
   }
 }
